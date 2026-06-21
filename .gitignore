@@ -1,0 +1,10 @@
+# System files
+*.lnk
+desktop.ini
+
+# Scripts
+*.ps1
+*.bat
+
+# Office temp files
+~$*
