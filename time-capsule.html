@@ -1,0 +1,3481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>💊 恋爱时间胶囊 — 邱浚洋 ❤ 姬晨露</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   === 全局变量 & 基础设置 ======================================
+   ============================================================ */
+:root {
+  --pink-lightest: #FFF5F5;
+  --pink-lighter: #FFE4E8;
+  --pink-light: #FFD6E0;
+  --pink: #FFB6C9;
+  --pink-medium: #FF8FAB;
+  --pink-strong: #F06292;
+  --pink-dark: #D6416E;
+  --cream: #FFF8F0;
+  --cream-darker: #FFF0E0;
+  --gold: #F5C8A0;
+  --gold-light: #FDE8D0;
+  --warm-text: #5D3A3A;
+  --warm-text-light: #8A5A5A;
+  --white: #FFFFFF;
+  --shadow-soft: 0 4px 20px rgba(200, 100, 120, 0.12);
+  --shadow-medium: 0 8px 32px rgba(200, 100, 120, 0.18);
+  --shadow-strong: 0 12px 48px rgba(200, 100, 120, 0.25);
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-xl: 36px;
+  --font-body: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+  --font-deco: 'ZCOOL KuaiLe', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--warm-text);
+  overflow-x: hidden;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   === 背景粒子（漂浮爱心/星星）================================
+   ============================================================ */
+#particles-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.particle {
+  position: absolute;
+  font-size: 18px;
+  opacity: 0.25;
+  animation: floatParticle linear infinite;
+  will-change: transform, opacity;
+}
+@keyframes floatParticle {
+  0%   { transform: translateY(100vh) rotate(0deg) scale(0.6); opacity: 0; }
+  10%  { opacity: 0.25; }
+  90%  { opacity: 0.2; }
+  100% { transform: translateY(-10vh) rotate(360deg) scale(1); opacity: 0; }
+}
+
+/* ============================================================
+   === 模块一：开场信封 =========================================
+   ============================================================ */
+#envelope-overlay {
+  position: fixed; top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #FFE4E8 0%, #FFF0E8 40%, #FFF5F0 70%, #FFE8E0 100%);
+  cursor: pointer;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+#envelope-overlay.hidden {
+  opacity: 0;
+  transform: scale(1.05);
+  pointer-events: none;
+}
+
+/* 装饰光晕 */
+#envelope-overlay::before {
+  content: '';
+  position: absolute;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(255,182,201,0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+@keyframes glowPulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%      { transform: scale(1.2); opacity: 1; }
+}
+
+.envelope-wrapper {
+  position: relative;
+  width: 280px;
+  height: 200px;
+  z-index: 2;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.envelope-wrapper:hover {
+  transform: scale(1.03);
+}
+.envelope-wrapper.opened .envelope-body {
+  transform: rotateX(180deg);
+}
+.envelope-wrapper.opened .envelope-flap {
+  transform: rotateX(0deg);
+}
+
+.envelope-body {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 170px;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  background: linear-gradient(135deg, #FFB6C9 0%, #FF8FAB 100%);
+  box-shadow: var(--shadow-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
+
+.envelope-flap {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 110px;
+  background: linear-gradient(135deg, #FFC8D6 0%, #FFB6C9 100%);
+  clip-path: polygon(0 0, 50% 70%, 100% 0);
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 2;
+}
+
+.envelope-heart {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 52px;
+  animation: heartBeat 1.5s ease-in-out infinite;
+  z-index: 3;
+  filter: drop-shadow(0 2px 8px rgba(214,65,110,0.3));
+}
+@keyframes heartBeat {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  15%      { transform: translate(-50%, -50%) scale(1.2); }
+  30%      { transform: translate(-50%, -50%) scale(1); }
+  45%      { transform: translate(-50%, -50%) scale(1.15); }
+  60%      { transform: translate(-50%, -50%) scale(1); }
+}
+
+.envelope-text {
+  font-family: var(--font-deco);
+  font-size: 20px;
+  color: var(--warm-text);
+  margin-top: 28px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  animation: textBounce 2s ease-in-out infinite;
+}
+@keyframes textBounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+.envelope-sub {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--warm-text-light);
+  margin-top: 10px;
+  opacity: 0.7;
+  position: relative;
+  z-index: 2;
+  animation: fadeInOut 2s ease-in-out infinite;
+}
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.5; }
+  50%      { opacity: 1; }
+}
+
+/* ============================================================
+   === 主内容区域 ==============================================
+   ============================================================ */
+#main-content {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px 80px;
+  display: none;
+}
+#main-content.show {
+  display: block;
+  animation: fadeUp 0.8s ease forwards;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.section-title {
+  font-family: var(--font-deco);
+  font-size: 26px;
+  text-align: center;
+  color: var(--pink-strong);
+  margin-bottom: 8px;
+  position: relative;
+}
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, var(--pink), var(--pink-strong));
+  border-radius: 3px;
+  margin: 10px auto 0;
+}
+.section-subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: var(--warm-text-light);
+  margin-bottom: 24px;
+}
+
+.section-divider {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--pink), transparent);
+  margin: 50px auto;
+  opacity: 0.4;
+}
+
+.content-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 28px 22px;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 28px;
+  transition: box-shadow 0.3s ease;
+}
+.content-card:hover {
+  box-shadow: var(--shadow-medium);
+}
+
+/* ============================================================
+   === 模块二：恋爱计时器 ======================================
+   ============================================================ */
+#timer-section {
+  text-align: center;
+  padding: 40px 0 20px;
+}
+
+.timer-couple {
+  font-family: var(--font-deco);
+  font-size: 20px;
+  color: var(--pink-dark);
+  margin-bottom: 4px;
+  letter-spacing: 2px;
+}
+.timer-label {
+  font-size: 13px;
+  color: var(--warm-text-light);
+  margin-bottom: 20px;
+}
+
+.timer-grid {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.timer-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 70px;
+}
+
+.timer-card {
+  background: linear-gradient(145deg, #FFF5F5, #FFE4E8);
+  border-radius: var(--radius-sm);
+  padding: 12px 8px;
+  width: 100%;
+  box-shadow: inset 0 1px 3px rgba(255,255,255,0.8), 0 3px 10px rgba(200,100,120,0.1);
+  transition: transform 0.15s ease;
+}
+
+.timer-number {
+  font-family: var(--font-deco);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--pink-strong);
+  line-height: 1.2;
+  display: block;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-number.pop {
+  animation: popNumber 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes popNumber {
+  0%   { transform: scale(0.7); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.timer-unit-label {
+  font-size: 13px;
+  color: var(--warm-text-light);
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* ============================================================
+   === 模块三：回忆时间轴 ======================================
+   ============================================================ */
+.timeline {
+  position: relative;
+  padding: 16px 0 16px 30px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 0;
+  bottom: 0;
+  width: 2.5px;
+  background: linear-gradient(to bottom, var(--pink-light), var(--pink), var(--pink-strong));
+  border-radius: 3px;
+  opacity: 0.6;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 28px;
+  padding-left: 20px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.timeline-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-item::before {
+  content: '♥';
+  position: absolute;
+  left: -28px;
+  top: 4px;
+  font-size: 14px;
+  color: var(--pink-strong);
+  background: var(--white);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 3px rgba(240,98,114,0.15);
+  line-height: 1;
+}
+
+.timeline-date {
+  font-size: 13px;
+  color: var(--pink-medium);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.timeline-card {
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-soft);
+  border-left: 3px solid var(--pink-light);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.timeline-item.visible .timeline-card {
+  box-shadow: var(--shadow-medium);
+  border-left-color: var(--pink);
+}
+
+.timeline-text {
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: var(--warm-text);
+}
+.timeline-text .highlight {
+  color: var(--pink-strong);
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   === 模块四：每日情话 =========================================
+   ============================================================ */
+#quote-section {
+  text-align: center;
+}
+
+.quote-card {
+  background: linear-gradient(145deg, #FFF5F7, #FFE8EE);
+  border-radius: var(--radius-md);
+  padding: 32px 24px;
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quote-text {
+  font-size: 17px;
+  line-height: 1.9;
+  color: var(--warm-text);
+  font-weight: 500;
+  transition: opacity 0.5s ease;
+  position: relative;
+  z-index: 1;
+}
+.quote-text::before {
+  content: '"';
+  font-size: 42px;
+  color: var(--pink-light);
+  position: absolute;
+  top: -16px;
+  left: -8px;
+  font-family: serif;
+  opacity: 0.6;
+}
+.quote-text::after {
+  content: '"';
+  font-size: 42px;
+  color: var(--pink-light);
+  position: absolute;
+  bottom: -32px;
+  right: -8px;
+  font-family: serif;
+  opacity: 0.6;
+}
+
+.quote-refresh {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--pink-medium);
+  cursor: pointer;
+  padding: 6px 18px;
+  border: 1.5px solid var(--pink-light);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  background: transparent;
+  font-family: var(--font-body);
+}
+.quote-refresh:hover {
+  background: var(--pink-lighter);
+  border-color: var(--pink);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   === 模块五：小测验 ===========================================
+   ============================================================ */
+#quiz-section .content-card {
+  padding-bottom: 22px;
+}
+
+.quiz-question {
+  margin-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--pink-lighter);
+}
+.quiz-question:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.quiz-q-text {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--warm-text);
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.quiz-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--pink-lightest);
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 14px;
+  color: var(--warm-text);
+}
+.quiz-option:hover {
+  background: var(--pink-lighter);
+  border-color: var(--pink-light);
+}
+.quiz-option.selected {
+  background: linear-gradient(135deg, #FFE4EE, #FFD0DA);
+  border-color: var(--pink);
+  box-shadow: 0 2px 8px rgba(240,98,114,0.12);
+}
+
+.quiz-option .radio-circle {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--pink-light);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+.quiz-option.selected .radio-circle {
+  border-color: var(--pink-strong);
+  background: var(--pink-strong);
+}
+.quiz-option.selected .radio-circle::after {
+  content: '✓';
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.quiz-feedback {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--pink-medium);
+  min-height: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.quiz-feedback.show {
+  opacity: 1;
+}
+
+.quiz-result {
+  text-align: center;
+  padding: 20px;
+  background: linear-gradient(145deg, #FFF5F7, #FFE8EE);
+  border-radius: var(--radius-sm);
+  margin-top: 12px;
+  display: none;
+}
+.quiz-result.show {
+  display: block;
+  animation: fadeUp 0.5s ease;
+}
+
+.quiz-score {
+  font-family: var(--font-deco);
+  font-size: 36px;
+  color: var(--pink-strong);
+  margin: 8px 0;
+}
+
+.quiz-score-msg {
+  font-size: 15px;
+  color: var(--warm-text);
+}
+
+/* ============================================================
+   === 模块六：拼图游戏 =========================================
+   ============================================================ */
+#puzzle-section {
+  text-align: center;
+}
+
+/* ↓ 在这里修改拼图图片路径（目前是渐变色占位）*/
+:root {
+  --puzzle-image: url('');
+}
+
+.puzzle-container {
+  display: inline-block;
+  background: var(--pink-lightest);
+  border-radius: var(--radius-sm);
+  padding: 6px;
+  box-shadow: var(--shadow-soft);
+  margin: 0 auto;
+}
+
+.puzzle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  width: 288px;
+  height: 288px;
+  margin: 0 auto;
+}
+
+@media (max-width: 360px) {
+  .puzzle-grid {
+    width: 240px;
+    height: 240px;
+  }
+}
+
+.puzzle-tile {
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-family: var(--font-deco);
+  color: var(--warm-text);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  /* 渐变占位图案，替换为实际图片后删除下面一行 */
+  background: linear-gradient(135deg, #FFB6C9, #FFD6E0, #FDE8D0, #FFE4E8, #FFC8D6, #FFB0C0);
+  background-size: 300% 300%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+.puzzle-tile:hover:not(.puzzle-empty) {
+  transform: scale(0.96);
+  box-shadow: 0 2px 8px rgba(200,100,120,0.15);
+}
+.puzzle-tile:active:not(.puzzle-empty) {
+  transform: scale(0.93);
+}
+
+.puzzle-tile .tile-num {
+  position: absolute;
+  top: 4px; left: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(93,58,58,0.35);
+  font-family: var(--font-body);
+}
+
+.puzzle-empty {
+  background: rgba(255,182,201,0.15) !important;
+  cursor: default;
+  box-shadow: none !important;
+}
+
+.puzzle-info {
+  margin-top: 14px;
+  font-size: 14px;
+  color: var(--warm-text-light);
+}
+
+.puzzle-btn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 8px 22px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--pink), var(--pink-strong));
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 12px rgba(240,98,114,0.25);
+}
+.puzzle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(240,98,114,0.35);
+}
+.puzzle-btn:active {
+  transform: translateY(0);
+}
+
+.puzzle-solved-msg {
+  display: none;
+  margin-top: 14px;
+  padding: 14px 20px;
+  background: linear-gradient(145deg, #FFF0F5, #FFE4EC);
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+  color: var(--pink-dark);
+  font-weight: 600;
+  animation: fadeUp 0.5s ease;
+}
+.puzzle-solved-msg.show {
+  display: block;
+}
+
+/* ============================================================
+   === 模块七：许愿清单 =========================================
+   ============================================================ */
+.wish-list {
+  list-style: none;
+  padding: 0;
+}
+
+.wish-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  background: var(--pink-lightest);
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 14.5px;
+}
+.wish-item:hover {
+  border-color: var(--pink-light);
+  background: var(--cream);
+}
+
+.wish-check {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--pink-light);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  color: transparent;
+}
+.wish-check.checked {
+  background: linear-gradient(135deg, var(--pink), var(--pink-strong));
+  border-color: var(--pink-strong);
+  color: white;
+  box-shadow: 0 2px 8px rgba(240,98,114,0.25);
+}
+
+.wish-text {
+  flex: 1;
+  transition: all 0.3s ease;
+}
+.wish-check.checked + .wish-text {
+  text-decoration: line-through;
+  color: var(--warm-text-light);
+  opacity: 0.65;
+}
+
+/* ============================================================
+   === 模块八：留言板 ===========================================
+   ============================================================ */
+#message-section .localstorage-note {
+  font-size: 12px;
+  color: var(--warm-text-light);
+  opacity: 0.6;
+  text-align: right;
+  margin-bottom: 14px;
+}
+
+.message-input-area {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.message-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1.5px solid var(--pink-light);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s ease;
+  background: var(--white);
+  color: var(--warm-text);
+  resize: none;
+}
+.message-input:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px rgba(255,182,201,0.15);
+}
+
+.message-send-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--pink), var(--pink-strong));
+  color: white;
+  font-family: var(--font-body);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 3px 10px rgba(240,98,114,0.2);
+}
+.message-send-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px rgba(240,98,114,0.3);
+}
+.message-send-btn:active {
+  transform: translateY(0);
+}
+.message-send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.message-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.message-list::-webkit-scrollbar {
+  width: 4px;
+}
+.message-list::-webkit-scrollbar-track {
+  background: var(--pink-lightest);
+  border-radius: 4px;
+}
+.message-list::-webkit-scrollbar-thumb {
+  background: var(--pink-light);
+  border-radius: 4px;
+}
+
+.message-bubble {
+  background: var(--pink-lightest);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--warm-text);
+  border: 1px solid var(--pink-lighter);
+  animation: fadeUp 0.3s ease;
+  word-break: break-word;
+}
+.message-bubble .msg-time {
+  font-size: 11px;
+  color: var(--warm-text-light);
+  opacity: 0.5;
+  margin-top: 4px;
+  display: block;
+}
+
+.message-empty {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--warm-text-light);
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+/* ============================================================
+   === 模块九：终极告白 =========================================
+   ============================================================ */
+#confession-section {
+  text-align: center;
+}
+
+.confession-btn {
+  padding: 14px 36px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(135deg, var(--pink), var(--pink-strong), #D6416E);
+  background-size: 200% 200%;
+  color: white;
+  font-family: var(--font-deco);
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 6px 24px rgba(240,98,114,0.35);
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+}
+.confession-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 36px rgba(240,98,114,0.45);
+  background-position: 100% 100%;
+}
+.confession-btn:active {
+  transform: translateY(0);
+}
+
+.confession-modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 9998;
+  background: rgba(93,58,58,0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.confession-modal.show {
+  display: flex;
+  animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.confession-modal-content {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  max-width: 520px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 36px 28px;
+  box-shadow: var(--shadow-strong);
+  position: relative;
+  animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.85) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.confession-modal-close {
+  position: absolute;
+  top: 12px; right: 16px;
+  font-size: 24px;
+  color: var(--warm-text-light);
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+  background: none;
+  border: none;
+  line-height: 1;
+}
+.confession-modal-close:hover {
+  opacity: 1;
+}
+
+.confession-title {
+  font-family: var(--font-deco);
+  font-size: 22px;
+  color: var(--pink-strong);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.confession-body {
+  font-size: 15px;
+  line-height: 2;
+  color: var(--warm-text);
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+.confession-modal .heart-rain {
+  pointer-events: none;
+}
+
+/* 撒花/爱心雨动画 */
+@keyframes confettiFall {
+  0%   { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+.confetti-piece {
+  position: fixed;
+  top: -20px;
+  z-index: 9999;
+  pointer-events: none;
+  animation: confettiFall linear forwards;
+  font-size: 20px;
+}
+
+/* ============================================================
+   === 响应式 ==================================================
+   ============================================================ */
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 22px;
+  }
+  .envelope-wrapper {
+    width: 230px;
+    height: 170px;
+  }
+  .envelope-body {
+    height: 140px;
+  }
+  .envelope-flap {
+    height: 90px;
+  }
+  .envelope-heart {
+    font-size: 42px;
+  }
+  .envelope-text {
+    font-size: 17px;
+    margin-top: 22px;
+  }
+  .timer-number {
+    font-size: 26px;
+  }
+  .timer-unit {
+    min-width: 56px;
+  }
+  .timer-card {
+    padding: 10px 6px;
+  }
+  .timeline {
+    padding-left: 24px;
+  }
+  .timeline-item {
+    padding-left: 16px;
+  }
+  .timeline-item::before {
+    left: -24px;
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+  }
+  .puzzle-grid {
+    width: 240px;
+    height: 240px;
+  }
+  .puzzle-tile {
+    font-size: 18px;
+  }
+  .quiz-option {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  .confession-btn {
+    font-size: 17px;
+    padding: 12px 28px;
+  }
+  .confession-modal-content {
+    padding: 28px 20px;
+  }
+}
+
+@media (max-width: 360px) {
+  .timer-unit {
+    min-width: 48px;
+  }
+  .timer-number {
+    font-size: 20px;
+  }
+  .puzzle-grid {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+/* 底部模块初始隐藏状态（进入视口后才显示） */
+#stats-section,
+#quote-section,
+#quiz-section,
+#puzzle-section,
+#checkin-section,
+#match-section,
+#ai-video-section,
+#sticker-section,
+#wish-section,
+#message-section,
+#confession-section {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+#stats-section.section-visible,
+#quote-section.section-visible,
+#quiz-section.section-visible,
+#puzzle-section.section-visible,
+#checkin-section.section-visible,
+#match-section.section-visible,
+#ai-video-section.section-visible,
+#sticker-section.section-visible,
+#wish-section.section-visible,
+#message-section.section-visible,
+#confession-section.section-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   === 工具样式 ================================================
+   ============================================================ */
+.text-gradient {
+  background: linear-gradient(135deg, var(--pink-medium), var(--pink-strong));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--pink-lightest);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--pink-light);
+  border-radius: 10px;
+}
+
+/* 选中颜色 */
+::selection {
+  background: var(--pink-light);
+  color: var(--warm-text);
+}
+
+/* ============================================================
+   === 新模块：恋爱统计 ==========================================
+   ============================================================ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 0 auto;
+  max-width: 480px;
+}
+.stat-card {
+  background: linear-gradient(145deg, #FFF5F5, #FFE4E8);
+  border-radius: var(--radius-sm);
+  padding: 20px 8px;
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.3s ease;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+}
+.stat-number {
+  font-family: var(--font-deco);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--pink-strong);
+  display: block;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.stat-label {
+  font-size: 12px;
+  color: var(--warm-text-light);
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* 背景音乐切换按钮 */
+#music-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: var(--white);
+  box-shadow: var(--shadow-medium);
+  cursor: pointer;
+  font-size: 20px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pink-strong);
+}
+#music-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-strong);
+}
+#music-toggle.muted {
+  opacity: 0.55;
+}
+
+/* 时间轴卡片内的照片 */
+.timeline-photo {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 10px;
+  display: block;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+/* 告白弹窗内的图片 */
+.confession-photo {
+  width: 100%;
+  border-radius: 12px;
+  margin: 16px 0 0;
+  box-shadow: var(--shadow-soft);
+}
+
+/* 许愿清单引导语 */
+.wish-guide {
+  font-size: 14px;
+  color: var(--pink-medium);
+  text-align: center;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #FFF5F7, #FFE8EE);
+  border-radius: var(--radius-sm);
+  line-height: 1.7;
+}
+
+/* 统计模块动画 */
+.stat-number.count-anim {
+  animation: countPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes countPop {
+  0% { transform: scale(0.5); opacity: 0.3; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* ============================================================
+   === 新增模块：每日打卡 ==========================================
+   ============================================================ */
+.checkin-section {
+  text-align: center;
+}
+.checkin-card {
+  background: linear-gradient(145deg, #FFF5F7, #FFE8EE);
+  border-radius: var(--radius-md);
+  padding: 32px 24px;
+  box-shadow: var(--shadow-soft);
+  text-align: center;
+}
+.checkin-heart {
+  font-size: 56px;
+  display: block;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+.checkin-heart.beat {
+  animation: heartBeatCheckin 0.6s ease;
+}
+@keyframes heartBeatCheckin {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.3); }
+  50% { transform: scale(0.95); }
+  75% { transform: scale(1.15); }
+}
+.checkin-btn {
+  display: inline-block;
+  padding: 12px 32px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(135deg, var(--pink), var(--pink-strong));
+  color: white;
+  font-family: var(--font-deco);
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(240,98,114,0.25);
+  letter-spacing: 1px;
+}
+.checkin-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(240,98,114,0.35);
+}
+.checkin-btn:active {
+  transform: translateY(0);
+}
+.checkin-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+}
+.checkin-streak {
+  margin-top: 16px;
+  font-size: 15px;
+  color: var(--pink-dark);
+  font-weight: 600;
+}
+.checkin-streak .streak-num {
+  font-family: var(--font-deco);
+  font-size: 28px;
+  color: var(--pink-strong);
+}
+.checkin-msg {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--warm-text-light);
+  min-height: 24px;
+  transition: opacity 0.3s ease;
+}
+.checkin-history {
+  margin-top: 18px;
+  font-size: 12px;
+  color: var(--warm-text-light);
+  opacity: 0.6;
+}
+
+/* ============================================================
+   === 新增模块：问答匹配游戏 ======================================
+   ============================================================ */
+.match-q-text {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  color: var(--warm-text);
+  text-align: center;
+  line-height: 1.6;
+}
+.match-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.match-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--pink-lightest);
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 14.5px;
+  color: var(--warm-text);
+}
+.match-option:hover {
+  background: var(--pink-lighter);
+  border-color: var(--pink-light);
+}
+.match-option.correct {
+  background: linear-gradient(135deg, #D4EDDA, #C3E6CB);
+  border-color: #28A745;
+  animation: matchCorrect 0.4s ease;
+}
+.match-option.wrong {
+  background: linear-gradient(135deg, #FFF0F0, #FFE0E0);
+  border-color: #FF6B6B;
+  animation: matchWrong 0.3s ease;
+}
+.match-option.disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
+@keyframes matchCorrect {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+@keyframes matchWrong {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+.match-feedback {
+  text-align: center;
+  font-size: 14px;
+  min-height: 28px;
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+}
+.match-feedback.success {
+  color: #28A745;
+  background: #F0FFF4;
+}
+.match-feedback.hint {
+  color: var(--pink-medium);
+  background: #FFF5F7;
+}
+.match-progress {
+  text-align: center;
+  font-size: 13px;
+  color: var(--warm-text-light);
+  margin-bottom: 16px;
+}
+.match-result-card {
+  display: none;
+  text-align: center;
+  padding: 24px 16px;
+  background: linear-gradient(145deg, #FFF5F7, #FFE8EE);
+  border-radius: var(--radius-sm);
+  margin-top: 12px;
+}
+.match-result-card.show {
+  display: block;
+  animation: fadeUp 0.5s ease;
+}
+.match-score {
+  font-family: var(--font-deco);
+  font-size: 36px;
+  color: var(--pink-strong);
+  margin: 8px 0;
+}
+.match-restart-btn {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 8px 24px;
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--pink), var(--pink-strong));
+  color: white;
+  font-family: var(--font-body);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(240,98,114,0.2);
+}
+.match-restart-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   === 新增：渐进式告白 ============================================
+   ============================================================ */
+.progressive-confession {
+  min-height: 200px;
+  position: relative;
+}
+.progressive-line {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  font-size: 15px;
+  line-height: 2;
+  color: var(--warm-text);
+  margin-bottom: 4px;
+}
+.progressive-line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.progressive-line .line-sparkle {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 12px;
+  animation: sparklePop 0.5s ease;
+}
+@keyframes sparklePop {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.5); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.6; }
+}
+.confession-skip-btn {
+  display: block;
+  margin: 16px auto 0;
+  padding: 6px 18px;
+  border: 1.5px solid var(--pink-light);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--pink-medium);
+  font-family: var(--font-body);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.confession-skip-btn:hover {
+  background: var(--pink-lighter);
+  border-color: var(--pink);
+}
+.confession-tap-hint {
+  text-align: center;
+  font-size: 12px;
+  color: var(--warm-text-light);
+  opacity: 0.4;
+  margin-top: 12px;
+}
+
+/* ============================================================
+   === 新增模块：AI整蛊视频生成彩蛋 ==============================
+   ============================================================ */
+.ai-video-section {
+  text-align: center;
+}
+.ai-launch-btn {
+  display: inline-block;
+  padding: 14px 36px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #A855F7, #EC4899);
+  color: white;
+  font-family: var(--font-deco);
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 24px rgba(168,85,247,0.3);
+  letter-spacing: 2px;
+}
+.ai-launch-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 36px rgba(168,85,247,0.4);
+}
+.ai-launch-btn:active {
+  transform: translateY(0);
+}
+
+/* 加载动画区域 */
+.ai-loading {
+  display: none;
+  padding: 20px 0;
+  text-align: center;
+}
+.ai-loading.show {
+  display: block;
+  animation: fadeUp 0.3s ease;
+}
+.ai-loading-bar-track {
+  width: 100%;
+  max-width: 320px;
+  height: 10px;
+  background: var(--pink-lighter);
+  border-radius: 10px;
+  margin: 16px auto;
+  overflow: hidden;
+}
+.ai-loading-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #A855F7, #EC4899, #F06292);
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+.ai-loading-text {
+  font-size: 16px;
+  color: var(--pink-dark);
+  min-height: 32px;
+  font-weight: 500;
+  animation: aiTextPulse 0.6s ease infinite alternate;
+}
+@keyframes aiTextPulse {
+  from { opacity: 0.7; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.ai-loading-spinner {
+  display: inline-block;
+  font-size: 36px;
+  animation: aiSpin 1.2s linear infinite;
+  margin-bottom: 10px;
+}
+@keyframes aiSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.ai-loading-percent {
+  font-family: var(--font-deco);
+  font-size: 28px;
+  color: #A855F7;
+  font-weight: 700;
+}
+
+/* 生成结果卡片 */
+.ai-result {
+  display: none;
+  padding: 10px 0;
+  text-align: center;
+}
+.ai-result.show {
+  display: block;
+  animation: modalPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.ai-result-card {
+  display: inline-block;
+  background: linear-gradient(145deg, #FFF5FF, #F8E8FF, #FFE8F0);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-strong);
+  max-width: 320px;
+  border: 2px solid rgba(168,85,247,0.2);
+}
+.ai-video-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, #A855F7, #EC4899, #F06292, #FFB6C9);
+  background-size: 400% 400%;
+  animation: aiGradient 3s ease infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+@keyframes aiGradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.ai-video-title {
+  font-family: var(--font-deco);
+  font-size: 18px;
+  color: var(--pink-dark);
+  margin: 8px 0;
+}
+.ai-video-desc {
+  font-size: 14px;
+  color: var(--warm-text-light);
+  line-height: 1.6;
+  margin: 8px 0;
+}
+.ai-video-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 10px;
+}
+.ai-video-tag {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  background: rgba(168,85,247,0.1);
+  color: #A855F7;
+  font-weight: 500;
+}
+.ai-retry-btn {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 8px 22px;
+  border: 1.5px solid #A855F7;
+  border-radius: 20px;
+  background: transparent;
+  color: #A855F7;
+  font-family: var(--font-body);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.ai-retry-btn:hover {
+  background: rgba(168,85,247,0.1);
+}
+
+/* ============================================================
+   === 新增模块：照片整蛊贴纸生成器 ==============================
+   ============================================================ */
+.sticker-section {
+  text-align: center;
+}
+.sticker-upload-area {
+  padding: 30px 20px;
+  border: 2.5px dashed var(--pink-light);
+  border-radius: var(--radius-md);
+  background: var(--pink-lightest);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+.sticker-upload-area:hover {
+  border-color: var(--pink);
+  background: var(--pink-lighter);
+}
+.sticker-upload-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 8px;
+}
+.sticker-upload-text {
+  font-size: 15px;
+  color: var(--warm-text-light);
+  font-weight: 500;
+}
+.sticker-upload-hint {
+  font-size: 12px;
+  color: var(--warm-text-light);
+  opacity: 0.6;
+  margin-top: 4px;
+}
+.sticker-canvas-wrap {
+  display: none;
+  position: relative;
+  margin: 0 auto;
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-medium);
+}
+.sticker-canvas-wrap.show {
+  display: inline-block;
+  animation: modalPop 0.4s ease;
+}
+.sticker-canvas-wrap img {
+  width: 100%;
+  max-width: 360px;
+  display: block;
+  border-radius: var(--radius-sm);
+}
+.sticker-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.sticker-emoji-el {
+  position: absolute;
+  font-size: 32px;
+  animation: stickerBounce 1.5s ease-in-out infinite;
+}
+@keyframes stickerBounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(8deg); }
+}
+.sticker-label-el {
+  position: absolute;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255,105,180,0.85), rgba(168,85,247,0.85));
+  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+  white-space: nowrap;
+  font-family: var(--font-deco);
+  backdrop-filter: blur(2px);
+  animation: stickerFloat 2s ease-in-out infinite;
+}
+@keyframes stickerFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.sticker-border-svg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+.sticker-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.sticker-reshuffle-btn {
+  display: inline-block;
+  padding: 8px 22px;
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #FDE68A, #F59E0B);
+  color: #7C2D12;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(245,158,11,0.25);
+}
+.sticker-reshuffle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px rgba(245,158,11,0.35);
+}
+.sticker-reset-btn {
+  display: inline-block;
+  padding: 8px 18px;
+  border: 1.5px solid var(--pink-light);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--warm-text-light);
+  font-family: var(--font-body);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.sticker-reset-btn:hover {
+  background: var(--pink-lighter);
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     === 背景粒子画布 ===========================================
+     ============================================================ -->
+<div id="particles-canvas"></div>
+
+<!-- ============================================================
+     === 模块一：开场信封 =========================================
+     ============================================================ -->
+<div id="envelope-overlay">
+  <div class="envelope-wrapper" id="envelope">
+    <div class="envelope-flap"></div>
+    <div class="envelope-body">
+      <div class="envelope-heart">💖</div>
+    </div>
+  </div>
+  <div class="envelope-text">💌 姬晨露，点开看看？</div>
+  <div class="envelope-sub">— 邱浚洋 写给 姬晨露 · 轻轻戳一下信封，有惊喜哦 —</div>
+</div>
+
+<!-- ============================================================
+     === 主内容区域 ==============================================
+     ============================================================ -->
+<main id="main-content">
+
+  <!-- === 模块二：恋爱计时器 ===================================== -->
+  <section id="timer-section">
+    <div class="timer-couple">邱浚洋 <span style="color:var(--pink-strong)">❤</span> 姬晨露</div>
+    <div class="timer-label">我们已经相爱了…</div>
+    <div class="timer-grid" id="timer-grid">
+      <div class="timer-unit">
+        <div class="timer-card"><span class="timer-number" id="timer-days">00</span></div>
+        <span class="timer-unit-label">天</span>
+      </div>
+      <div class="timer-unit">
+        <div class="timer-card"><span class="timer-number" id="timer-hours">00</span></div>
+        <span class="timer-unit-label">时</span>
+      </div>
+      <div class="timer-unit">
+        <div class="timer-card"><span class="timer-number" id="timer-mins">00</span></div>
+        <span class="timer-unit-label">分</span>
+      </div>
+      <div class="timer-unit">
+        <div class="timer-card"><span class="timer-number" id="timer-secs">00</span></div>
+        <span class="timer-unit-label">秒</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- === 小统计模块 ============================================ -->
+  <section id="stats-section">
+    <div class="content-card" style="text-align:center;">
+      <div style="font-family:var(--font-deco);font-size:18px;color:var(--pink-dark);margin-bottom:14px;">📊 我们的小数据</div>
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <span class="stat-number" id="stat-photos">0</span>
+          <span class="stat-label">📸 一起拍的照片</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="stat-cities">0</span>
+          <span class="stat-label">🏙️ 一起去过的城市</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="stat-moments">0</span>
+          <span class="stat-label">💝 珍藏的回忆</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- === 模块三：回忆时间轴 ===================================== -->
+  <section id="timeline-section">
+    <h2 class="section-title">📖 我们的回忆</h2>
+    <p class="section-subtitle">从开始到现在，每一个瞬间都值得珍藏</p>
+    <div class="timeline" id="timeline">
+      <!-- 每一条由 JS 动态生成，以便标注注释位置 -->
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- === 模块四：每日情话 ===================================== -->
+  <section id="quote-section">
+    <h2 class="section-title">💬 每日一句情话</h2>
+    <p class="section-subtitle">今天也想对你说…</p>
+    <div class="quote-card content-card">
+      <div class="quote-text" id="quote-text">加载中…</div>
+    </div>
+    <button class="quote-refresh" id="quote-refresh">换一句 ♻</button>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- === 模块五：小测验 ========================================= -->
+  <section id="quiz-section">
+    <h2 class="section-title">🧡 测一测「有多爱我」</h2>
+    <p class="section-subtitle">露露专属小测验，每题选完有惊喜反馈哦</p>
+    <div class="content-card" id="quiz-container">
+      <!-- 由 JS 动态生成 -->
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- === 模块六：拼图游戏 ======================================= -->
+  <section id="puzzle-section">
+    <h2 class="section-title">🧩 拼图解锁</h2>
+    <p class="section-subtitle">拼好了就能解锁告白惊喜哦～</p>
+    <div class="content-card">
+      <div class="puzzle-container">
+        <!-- ↓ 在这里修改拼图图片路径（替换 --puzzle-image 变量中的 url 值）-->
+        <div class="puzzle-grid" id="puzzle-grid"></div>
+      </div>
+      <div class="puzzle-info" id="puzzle-info">点击与空白相邻的方块移动它</div>
+      <button class="puzzle-btn" id="puzzle-shuffle">🔀 打乱重来</button>
+      <div class="puzzle-solved-msg" id="puzzle-solved">
+        🎉 太棒了！拼图完成！快去下面解锁告白吧～
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- === 模块七：许愿清单 ======================================= -->
+  <section id="wish-section">
+    <h2 class="section-title">⭐ 我们的心愿清单</h2>
+    <p class="section-subtitle">这些是我们一起期待的未来 🌟</p>
+    <div class="content-card">
+      <div class="wish-guide">💫 每完成一件心愿，就来点一下打勾吧～ 这些是我们一起期待的未来，每一步都有你陪伴 🤗</div>
+      <ul class="wish-list" id="wish-list">
+        <!-- 由 JS 动态生成 -->
+      </ul>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- === 模块八：留言板 ========================================= -->
+  <section id="message-section">
+    <h2 class="section-title">💌 留言板</h2>
+    <p class="section-subtitle">把想对浚洋说的话留在这里吧</p>
+    <div class="content-card">
+      <div class="localstorage-note">📱 这些留言只保存在你的手机里哦</div>
+      <div class="message-input-area">
+        <textarea class="message-input" id="msg-input" rows="2" placeholder="写点什么呢… 💭" maxlength="500"></textarea>
+        <button class="message-send-btn" id="msg-send-btn">💖 留下心意</button>
+      </div>
+      <div class="message-list" id="message-list">
+        <div class="message-empty">还没有留言呢，写点什么吧～</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- === 新增模块：每天想你了吗 打卡 ============================== -->
+  <section id="checkin-section">
+    <h2 class="section-title">💗 今天想我了吗</h2>
+    <p class="section-subtitle">每天来打个卡，告诉我你的想念～</p>
+    <div class="checkin-card content-card">
+      <span class="checkin-heart" id="checkin-heart">💗</span>
+      <div>
+        <button class="checkin-btn" id="checkin-btn">💖 今天也想浚洋了</button>
+      </div>
+      <div class="checkin-streak" id="checkin-streak">
+        已连续想念 <span class="streak-num" id="streak-num">0</span> 天 💕
+      </div>
+      <div class="checkin-msg" id="checkin-msg"></div>
+      <div class="checkin-history" id="checkin-history"></div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- === 新增模块：双人问答匹配游戏 ================================ -->
+  <section id="match-section">
+    <h2 class="section-title">🧠 默契大考验</h2>
+    <p class="section-subtitle">看看你对我们的回忆了解多少～（答错了也没关系，再试试！）</p>
+    <div class="content-card" id="match-container">
+      <div id="match-render"></div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- === 模块九：终极告白 ======================================= -->
+  <section id="confession-section">
+    <h2 class="section-title">💝 终极告白</h2>
+    <p class="section-subtitle">拼图解锁后，点击下方按钮收获惊喜</p>
+    <div class="content-card">
+      <p style="font-size:14px;color:var(--warm-text-light);margin-bottom:20px;">
+        拼好拼图后，点击按钮查看浚洋写给你的告白信 💌
+      </p>
+      <button class="confession-btn" id="confession-btn">✨ 点击解锁惊喜 ✨</button>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- === 新增模块四：AI整蛊视频生成彩蛋 =========================== -->
+  <section id="ai-video-section">
+    <h2 class="section-title">🤖 AI 视频生成器</h2>
+    <p class="section-subtitle">用最先进的AI（才怪）为你生成专属大片！</p>
+    <div class="content-card">
+      <button class="ai-launch-btn" id="ai-launch-btn">🎬 开始生成我们的视频</button>
+      <div class="ai-loading" id="ai-loading">
+        <div class="ai-loading-spinner">🤖</div>
+        <div class="ai-loading-percent" id="ai-loading-percent">0%</div>
+        <div class="ai-loading-bar-track">
+          <div class="ai-loading-bar-fill" id="ai-loading-bar-fill"></div>
+        </div>
+        <div class="ai-loading-text" id="ai-loading-text">正在启动AI引擎…</div>
+      </div>
+      <div class="ai-result" id="ai-result">
+        <div class="ai-result-card">
+          <div class="ai-video-thumb">🎥✨</div>
+          <div class="ai-video-title" id="ai-video-title">【爆款】我们的故事</div>
+          <div class="ai-video-desc" id="ai-video-desc">加载结果描述文案…</div>
+          <div class="ai-video-tags" id="ai-video-tags"></div>
+        </div>
+        <button class="ai-retry-btn" id="ai-retry-btn">🔄 再来一次</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- === 新增模块五：照片整蛊贴纸生成器 =========================== -->
+  <section id="sticker-section">
+    <h2 class="section-title">🖼️ 照片整蛊贴纸机</h2>
+    <p class="section-subtitle">上传一张照片，AI（其实是我）帮你加满特效！</p>
+    <div class="content-card">
+      <div class="sticker-upload-area" id="sticker-upload-area">
+        <span class="sticker-upload-icon">📸</span>
+        <div class="sticker-upload-text">点击上传你的照片</div>
+        <div class="sticker-upload-hint">照片只会在你的浏览器里处理，不会上传到任何服务器</div>
+        <input type="file" id="sticker-file-input" accept="image/*" style="display:none">
+      </div>
+      <div class="sticker-canvas-wrap" id="sticker-canvas-wrap">
+        <div style="position:relative;display:inline-block;">
+          <img id="sticker-photo" alt="你的照片" src="">
+          <div class="sticker-overlay" id="sticker-overlay"></div>
+        </div>
+        <div class="sticker-actions">
+          <button class="sticker-reshuffle-btn" id="sticker-reshuffle-btn">🎰 再抽一次</button>
+          <button class="sticker-reset-btn" id="sticker-reset-btn">✕ 换一张照片</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="text-align:center;padding:30px 0 10px;color:var(--warm-text-light);font-size:12px;opacity:0.5;">
+    💕 邱浚洋 ❤ 姬晨露 &nbsp;·&nbsp; 永远在一起
+  </div>
+  <div style="text-align:center;padding:4px 0 20px;color:var(--warm-text-light);font-size:11px;opacity:0.35;letter-spacing:0.5px;">
+    by 邱浚洋 写给 姬晨露 的小心意 · 2026.6
+  </div>
+</main>
+
+<!-- === 终极告白弹窗 ============================================= -->
+<div class="confession-modal" id="confession-modal">
+  <div class="confession-modal-content">
+    <button class="confession-modal-close" id="confession-modal-close">✕</button>
+    <div class="confession-title">💌 给我的露露</div>
+    <div class="confession-body" id="confession-body">
+      <div class="progressive-confession" id="progressive-confession"></div>
+      <button class="confession-skip-btn" id="confession-skip-btn">📖 跳过动画，直接看全文</button>
+      <div class="confession-tap-hint">💫 点击任意位置可跳到下一句</div>
+    </div>
+    <img src="images/2026-01-31-01.jpg" alt="我们的回忆" class="confession-photo" loading="lazy">
+  </div>
+</div>
+
+  <!-- 背景音乐（默认静音，需自行替换 src 为音乐文件路径） -->
+  <!-- 推荐免费轻音乐源：https://pixabay.com/music/ 或 https://www.bensound.com/ -->
+  <audio id="bg-music" loop preload="none" muted>
+    <!-- ↓ 在这里替换为你下载的轻音乐文件路径 -->
+    <source src="" type="audio/mpeg">
+  </audio>
+
+  <!-- 音乐开关按钮 -->
+  <button id="music-toggle" class="muted" title="点击播放背景音乐">🎵</button>
+
+<script>
+/* ============================================================
+   ====== 🛠️ 配置区 — 在这里修改所有占位内容 ====================
+   ============================================================ */
+
+// ===== 恋爱开始时间 =====
+// ↓ 在这里修改开始时间（年, 月-1, 日, 时, 分, 秒）  —  注意：月份从 0 开始，10月 = 9
+const LOVE_START = new Date(2024, 9, 1, 0, 0, 0);
+
+// ===== 情话列表（12-15 条）====================================
+// ↓ 在这里修改或增加情话
+const QUOTES = [
+  '世界上有两种东西藏不住：喷嚏、咳嗽，和我爱你。',
+  '遇见你之前，我以为日子就是过日子；遇见你之后，我才知道日子也可以闪闪发光。',
+  '你笑起来的时候，我的整个世界都亮了。',
+  '和你在一起的每一天，都像在手心里接住了一颗糖。',
+  '「晚安」两个字里，藏着我没说出口的「还想和你多说一会儿话」。',
+  '你说过的每一句话，我都悄悄记在了心里最温暖的地方。',
+  '偷偷喜欢你这件事，我已经藏不住了，那就光明正大地喜欢一辈子吧。',
+  '你是我的例外，也是我的偏爱，是我在所有选择题里的唯一答案。',
+  '和你牵手走过的每一条路，都开满了花。',
+  '如果时间可以暂停，我希望停在每一次你对我笑的那一刻。',
+  '银河很大，但我的心动只有你一个人能听见。',
+  '谢谢你出现在我的生命里，让我知道原来被一个人放在心上是这样美好。',
+  '从前的日子很慢，遇见你之后，日子变得既快又甜。',
+  '我数过，从认识你到现在，每一天都比前一天更喜欢你一点。',
+  '你知道吗？「我在想到你」这件事，是每天发生最多次的事。',
+];
+
+// ===== 测验题目 ===============================================
+// ↓ 在这里修改题目、选项和反馈文字
+const QUIZ_DATA = [
+  {
+    question: '你觉得邱浚洋哪个瞬间最帅？',
+    options: ['认真看着你说话的时候', '笑起来阳光灿烂的时候', '牵着你手走路的时候', '笨拙地哄你开心的时候'],
+    feedback: ['哇，我也觉得这个角度很帅呢 😊', '是吧！我也最喜欢自己笑的样子啦', '牵着你的手我也很幸福～', '被你发现了，在你面前我总是有点笨 😅'],
+  },
+  {
+    question: '露露最喜欢邱浚洋什么地方？',
+    options: ['对我很温柔很有耐心', '总是能逗我开心', '靠谱又让人有安全感', '长得帅（实话实说）'],
+    feedback: ['因为是你，我才愿意把所有的温柔都给你呀', '你开心是我最大的动力！', '想成为你的依靠，一直一直都在', '被露露夸帅，我能开心一整天！'],
+  },
+  {
+    question: '邱浚洋做过的哪件事最让你感动？',
+    options: ['默默记住你提到的每个小细节', '在你难过的时候陪着你不说话', '为你准备的小惊喜', '牵着你的手说"有我在"'],
+    feedback: ['因为你说过的每件事，在我这里都是大事', '陪伴是最长情的告白嘛', '下次我要准备更大的惊喜！', '有我在，永远在。'],
+  },
+  {
+    question: '你们第一次约会，浚洋穿的衣服你记得吗？',
+    options: ['记得清清楚楚！', '大概记得颜色', '有点模糊了', '不重要，人在就好'],
+    feedback: ['不愧是你，什么都逃不过你的眼睛 ❤', '记得颜色也很好啦～', '下次约会我会穿得更帅一点', '对，重要的是我们在一起 ☺️'],
+  },
+  {
+    question: '如果用一种颜色形容邱浚洋，你会选？',
+    options: ['粉色——温柔可爱', '蓝色——安静可靠', '金色——阳光温暖', '红色——热情真诚'],
+    feedback: ['被你形容成粉色，我可太开心了 🥰', '在你面前我想做最可靠的港湾', '我的阳光都是因为你', '热情只对你一个人！'],
+  },
+  {
+    question: '如果满分10分，你给邱浚洋打几分？',
+    options: ['10分！满分！', '9分，留1分怕你骄傲', '100分！不够打！', '分数不重要，你永远是我的首选'],
+    feedback: ['谢谢露露！我会努力一直做你的满分男友！', '留1分进步空间是吧，我收到了！', '哇这个分数我太爱了！', '这句话比任何分数都让我心动 💓'],
+  },
+];
+
+// ===== 心愿清单（8-10 条）======================================
+// ↓ 在这里修改心愿列表
+const WISHES = [
+  '一起去看一次日出',
+  '一起养一只猫猫',
+  '一起去海边踩浪花',
+  '一起做一顿饭',
+  '一起去看一场演唱会',
+  '一起去游乐园坐摩天轮',
+  '一起去陌生的城市旅行',
+  '一起在冬天堆雪人',
+  '一起拍一套情侣写真',
+  '一起养很多很多植物',
+];
+
+// ===== 告白长文 ===============================================
+// ↓ ↓ ↓ 在这里写你的告白信（可以写很长很长） ↓ ↓ ↓
+const CONFESSION_LETTER = `
+嗨，我的露露 💕
+
+不知道你什么时候会打开这封信，但写下这些字的时候，
+我满脑子都是你的样子。
+
+从 2024 年 10 月 1 日那天起，
+我的世界就多了一个最特别的人。
+你笑的时候，我觉得整个世界都是甜的；
+你难过的时候，我恨不能把所有乌云都替你挡住。
+
+和你在一起的日子，
+每一个瞬间都像是被悄悄镀了一层光。
+第一次牵你的手，第一次吻你，
+第一次和你一起旅行，在洛阳的那个温暖的夜晚，
+第一次和你一起跨年，外面飘着雪，心里却暖得像春天…
+
+原来爱一个人，就是这样吧。
+想把所有美好的东西都给你，
+想让你每天都开开心心，
+想象着我们的未来，嘴角就会不自觉地上扬。
+
+谢谢你愿意和我在一起，
+谢谢你对我的包容和信任，
+谢谢你在每一个平凡的日子里，
+给了我不平凡的幸福。
+
+我不知道未来会怎样，
+但我知道，不管未来怎样，
+我都想牵着你的手一起走。
+
+露露，我爱你。
+不是"喜欢"，是"爱"。
+是想要和你一起慢慢变老的那种爱。
+
+— 永远爱你的 浚洋 💌
+`;
+
+// （告白长文占位结束 — 上面可随意修改扩充）
+
+// ===== 拼图图片路径 ============================================
+// ↓ 在这里替换拼图图片的 URL（直接引号内填图片路径）
+// ↓ 目前是渐变占位色，替换为图片后拼图会自动使用图片切割效果
+const PUZZLE_IMAGE_URL = 'images/04.jpg';
+
+// ============================================================
+// ====== 核心代码 — 一般情况下不需要修改 ========================
+// ============================================================
+
+(function () {
+  'use strict';
+
+  /* ----------------------------------------------------------
+     === 背景粒子（漂浮爱心/星星）=================================
+     ---------------------------------------------------------- */
+  function initParticles() {
+    const canvas = document.getElementById('particles-canvas');
+    const symbols = ['♥', '★', '✨', '♡', '✧', '🌸'];
+    const count = 15;
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('span');
+      el.className = 'particle';
+      el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      el.style.left = Math.random() * 100 + '%';
+      el.style.fontSize = (12 + Math.random() * 16) + 'px';
+      el.style.animationDuration = (12 + Math.random() * 20) + 's';
+      el.style.animationDelay = (Math.random() * 20) + 's';
+      el.style.opacity = '0.15';
+      canvas.appendChild(el);
+    }
+  }
+  initParticles();
+
+  /* ----------------------------------------------------------
+     === 模块一：开场信封 =========================================
+     ---------------------------------------------------------- */
+  const overlay = document.getElementById('envelope-overlay');
+  const envelope = document.getElementById('envelope');
+  const mainContent = document.getElementById('main-content');
+
+  let envelopeOpened = false;
+
+  function openEnvelope() {
+    if (envelopeOpened) return;
+    envelopeOpened = true;
+
+    envelope.classList.add('opened');
+    // 小爱心弹出
+    for (let i = 0; i < 8; i++) {
+      const heart = document.createElement('span');
+      heart.textContent = ['💖','💗','💕','❤'][Math.floor(Math.random()*4)];
+      heart.style.cssText = `
+        position:fixed; pointer-events:none; z-index:10000;
+        font-size:${18+Math.random()*20}px; left:${40+Math.random()*20}%;
+        top:40%; opacity:0;
+        transition: all ${0.8+Math.random()*0.6}s cubic-bezier(0.34,1.56,0.64,1);
+      `;
+      document.body.appendChild(heart);
+      requestAnimationFrame(() => {
+        heart.style.transform = `translate(${(Math.random()-0.5)*200}px, ${-80-Math.random()*120}px) rotate(${(Math.random()-0.5)*90}deg)`;
+        heart.style.opacity = '1';
+      });
+      setTimeout(() => heart.remove(), 1500);
+    }
+
+    setTimeout(() => {
+      overlay.classList.add('hidden');
+      mainContent.classList.add('show');
+      window.scrollTo(0, 0);
+      // 初始化需要滚动观察的模块（Observer 已预先设定好）
+      setupTimelineObserver();
+    }, 600);
+  }
+
+  // 统一处理点击/触屏，用 guard 防止重复触发
+  overlay.addEventListener('click', openEnvelope);
+  overlay.addEventListener('touchstart', function(e) {
+    // 只响应手指点击，不干扰 scroll
+  }, { passive: true });
+
+  /* ----------------------------------------------------------
+     === 模块二：恋爱计时器 =======================================
+     ---------------------------------------------------------- */
+  const timerEls = {
+    days: document.getElementById('timer-days'),
+    hours: document.getElementById('timer-hours'),
+    mins: document.getElementById('timer-mins'),
+    secs: document.getElementById('timer-secs'),
+  };
+  let prevValues = { days: '', hours: '', mins: '', secs: '' };
+
+  function padZero(n) {
+    return String(n).padStart(2, '0');
+  }
+
+  function updateTimer() {
+    const now = new Date();
+    const diff = Math.max(0, now - LOVE_START);
+    const totalSecs = Math.floor(diff / 1000);
+
+    const days = Math.floor(totalSecs / 86400);
+    const hours = Math.floor((totalSecs % 86400) / 3600);
+    const mins = Math.floor((totalSecs % 3600) / 60);
+    const secs = totalSecs % 60;
+
+    const vals = {
+      days: padZero(days),
+      hours: padZero(hours),
+      mins: padZero(mins),
+      secs: padZero(secs),
+    };
+
+    ['days', 'hours', 'mins', 'secs'].forEach(key => {
+      const el = timerEls[key];
+      if (el.textContent !== vals[key]) {
+        el.textContent = vals[key];
+        if (prevValues[key] !== '' && prevValues[key] !== vals[key]) {
+          el.classList.remove('pop');
+          // force reflow
+          void el.offsetWidth;
+          el.classList.add('pop');
+        }
+        prevValues[key] = vals[key];
+      }
+    });
+  }
+
+  updateTimer();
+  setInterval(updateTimer, 1000);
+
+  /* ----------------------------------------------------------
+     === 模块三：回忆时间轴 =======================================
+     ---------------------------------------------------------- */
+  // 时间轴数据（在这里修改文案）
+  const TIMELINE_DATA = [
+    { date: '2024.10.1',   text: '这一天，<span class="highlight">我们正式在一起了</span>。从此以后，世界多了一个让我牵挂的人。', photo: '01.jpg' },
+    { date: '2024.11.8',   text: '第一次牵你的手。你的手心暖暖的，软软的，那一刻我紧张得说都不会话了，但心里开满了花。', photo: '02.jpg' },
+    { date: '2024.11.25',  text: '第一次吻你。那一瞬间，世界安静下来，只剩下心跳声和你的呼吸。', photo: '03.jpg' },
+    { date: '2025.1.29',   text: '第一次一起出去玩。阳光很好，你很好，一切都刚刚好。', photo: '04.jpg' },
+    { date: '2025.4.6',    text: '我们的关系更进一步，彼此更加亲密。你在我心里，早已不是"女朋友"三个字能形容的了。', photo: '05.jpg' },
+    { date: '2025.7.8',    text: '第一次一起旅游，去了洛阳。也第一次以更亲密的方式依偎在一起，那个夜晚，我永远记得。', photo: '06.jpg' },
+    { date: '2025.8.29',   text: '第一次一起过七夕。没有鲜花也没有烛光晚餐，但有你在身边，就是最好的礼物。', photo: '07.jpg' },
+    { date: '2025.12.31',  text: '第一次一起跨年。外面下着雪，很冷很冷，但我们靠在一起，心里暖得像春天。', photo: '08.jpg' },
+    { date: '2026.1.27',   text: '第一次去江苏旅游。半夜一起坐上火车，车窗外的灯光一盏一盏掠过，像我们正在翻开的崭新一页。', photo: '09.jpg' },
+    { date: '2026.1.28',   text: '第一次一起看海。海浪声里，我看着你的侧脸，心里想——这就是我要共度一生的人啊。', photo: '10.jpg' },
+    { date: '2026.1.29',   text: '给露露买了一件衣服。看你穿上它时开心的样子，比我自己买了新衣服还高兴一百倍。', photo: '11.jpg' },
+    { date: '2026.1.30',   text: '到达徐州。这座陌生的城市，因为有你同行，变得温暖又亲切。', photo: '12.jpg' },
+    { date: '2026.1.31',   text: '重返郑州。旅行的尾巴越来越近，有点舍不得这场只属于我们的旅程。', photo: '13.jpg' },
+    { date: '2026.2.1',    text: '从郑州回宝丰，旅行结束。邱浚洋回了鲁山，虽然分开了，但心里装满了和你一起的记忆。', photo: '14.jpg' },
+    { date: '2026.3.6',    text: '露露科目一考了 <span class="highlight">100分</span>，超厉害！果然我的女朋友做什么都很棒。', photo: '15.jpg' },
+    { date: '2026.3.28',   text: '露露换了新手机。你拿着新手机开心地拍照的样子，比手机本身好看多了。', photo: '16.jpg' },
+    { date: '2026.4.30',   text: '一起去了健康路。路不长，但和你一起走，每一步都是风景。', photo: '17.jpg' },
+    { date: '2026.5.1',    text: '一起回家。有你的地方，就是家。', photo: '18.jpg' },
+    { date: '2026.5.30',   text: '一起看《<span class="highlight">给阿嬷的情书</span>》，你靠在我肩膀上哭得稀里哗啦。那一刻我觉得，能这样陪着你，真好。', photo: '20.jpg' },
+    { date: '2026.6.21',   text: '父亲节那天，露露给我发了 <span class="highlight">9.9元</span> 红包。小小的红包，满满的心意，你总是用这样可爱的细节让我心动。', photo: '19.jpg' },
+  ];
+
+  const timeline = document.getElementById('timeline');
+
+  TIMELINE_DATA.forEach((item, index) => {
+    const div = document.createElement('div');
+    div.className = 'timeline-item';
+    div.dataset.index = index;
+    const photoHtml = item.photo ? `<img src="images/${item.photo}" alt="回忆照片" class="timeline-photo" loading="lazy">` : '';
+    div.innerHTML = `
+      <div class="timeline-date">${item.date}</div>
+      <div class="timeline-card">
+        <div class="timeline-text">${item.text}</div>
+        ${photoHtml}
+      </div>
+    `;
+    timeline.appendChild(div);
+  });
+
+  let timelineObserver = null;
+  function setupTimelineObserver() {
+    if (timelineObserver) timelineObserver.disconnect();
+    timelineObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // 可选的：一旦可见就停止观察
+          timelineObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.timeline-item').forEach(el => {
+      timelineObserver.observe(el);
+    });
+  }
+
+  /* ----------------------------------------------------------
+     === 模块四：每日情话 =========================================
+     ---------------------------------------------------------- */
+  const quoteEl = document.getElementById('quote-text');
+  const quoteBtn = document.getElementById('quote-refresh');
+  let currentQuote = '';
+
+  function showRandomQuote() {
+    let idx;
+    do {
+      idx = Math.floor(Math.random() * QUOTES.length);
+    } while (QUOTES.length > 1 && QUOTES[idx] === currentQuote);
+    currentQuote = QUOTES[idx];
+    quoteEl.style.opacity = '0';
+    setTimeout(() => {
+      quoteEl.textContent = currentQuote;
+      quoteEl.style.opacity = '1';
+    }, 200);
+  }
+
+  showRandomQuote();
+  quoteBtn.addEventListener('click', showRandomQuote);
+
+  /* ----------------------------------------------------------
+     === 模块五：小测验 ===========================================
+     ---------------------------------------------------------- */
+  const quizContainer = document.getElementById('quiz-container');
+
+  function buildQuiz() {
+    let html = '';
+    QUIZ_DATA.forEach((q, qi) => {
+      html += `<div class="quiz-question" data-q="${qi}">`;
+      html += `<div class="quiz-q-text">${qi + 1}. ${q.question}</div>`;
+      html += `<div class="quiz-options">`;
+      q.options.forEach((opt, oi) => {
+        html += `<div class="quiz-option" data-q="${qi}" data-opt="${oi}">
+          <span class="radio-circle"></span>
+          <span>${opt}</span>
+        </div>`;
+      });
+      html += `</div>`;
+      html += `<div class="quiz-feedback" id="feedback-${qi}"></div>`;
+      html += `</div>`;
+    });
+    html += `<div class="quiz-result" id="quiz-result">
+      <div style="font-size:16px;color:var(--warm-text-light);">🎀 恋爱契合度诊断结果</div>
+      <div class="quiz-score" id="quiz-score">100%</div>
+      <div class="quiz-score-msg" id="quiz-score-msg">你就是我的100分女孩！</div>
+    </div>`;
+    quizContainer.innerHTML = html;
+
+    // 绑定选项点击事件
+    quizContainer.querySelectorAll('.quiz-option').forEach(el => {
+      el.addEventListener('click', function() {
+        const qIdx = parseInt(this.dataset.q);
+        const optIdx = parseInt(this.dataset.opt);
+
+        // 清除同题其他选择
+        const siblings = quizContainer.querySelectorAll(`.quiz-option[data-q="${qIdx}"]`);
+        siblings.forEach(s => s.classList.remove('selected'));
+
+        this.classList.add('selected');
+
+        // 显示反馈
+        const feedback = document.getElementById(`feedback-${qIdx}`);
+        const fbText = QUIZ_DATA[qIdx].feedback[optIdx] || '选得好！';
+        feedback.textContent = '💬 ' + fbText;
+        feedback.classList.add('show');
+
+        // 检查是否所有题都选了
+        checkQuizComplete();
+      });
+    });
+  }
+
+  function checkQuizComplete() {
+    const total = QUIZ_DATA.length;
+    const selected = quizContainer.querySelectorAll('.quiz-option.selected').length;
+    if (selected >= total) {
+      const result = document.getElementById('quiz-result');
+      // 无论如何都给高分（95-100%）
+      const score = 95 + Math.floor(Math.random() * 6); // 95-100
+      document.getElementById('quiz-score').textContent = score + '%';
+      const msgs = [
+        '你就是我的100分女孩！💯',
+        '满分通过！不愧是你 ❤️',
+        '这个分数说明——我们天生一对！💕',
+        '无论测多少次，你永远都是满分 💖',
+        '宝贝你太棒了，100分给你都不够！✨',
+      ];
+      document.getElementById('quiz-score-msg').textContent = msgs[Math.floor(Math.random() * msgs.length)];
+      result.classList.add('show');
+    }
+  }
+
+  buildQuiz();
+
+  /* ----------------------------------------------------------
+     === 模块六：拼图游戏 =========================================
+     ---------------------------------------------------------- */
+  const PUZZLE_SIZE = 3;  // 3x3，可改为 4
+  const grid = document.getElementById('puzzle-grid');
+  const puzzleInfo = document.getElementById('puzzle-info');
+  const shuffleBtn = document.getElementById('puzzle-shuffle');
+  const solvedMsg = document.getElementById('puzzle-solved');
+
+  let puzzleState = []; // 一维数组，0 = 空格
+  let puzzleSolved = false;
+
+  function initPuzzle() {
+    // 设置 grid 列数
+    grid.style.gridTemplateColumns = `repeat(${PUZZLE_SIZE}, 1fr)`;
+
+    // 生成 solved 状态
+    puzzleState = [];
+    for (let i = 1; i < PUZZLE_SIZE * PUZZLE_SIZE; i++) {
+      puzzleState.push(i);
+    }
+    puzzleState.push(0); // 空格在最后
+
+    shufflePuzzle();
+    renderPuzzle();
+    puzzleSolved = false;
+    solvedMsg.classList.remove('show');
+    puzzleInfo.textContent = '点击与空白相邻的方块移动它';
+  }
+
+  function shufflePuzzle() {
+    // 从 solved 状态做随机滑动，保证可解
+    const size = PUZZLE_SIZE;
+    const moves = 200 + Math.floor(Math.random() * 100);
+    let blankIdx = puzzleState.indexOf(0);
+
+    for (let m = 0; m < moves; m++) {
+      const row = Math.floor(blankIdx / size);
+      const col = blankIdx % size;
+      const neighbors = [];
+      if (row > 0) neighbors.push(blankIdx - size); // 上
+      if (row < size - 1) neighbors.push(blankIdx + size); // 下
+      if (col > 0) neighbors.push(blankIdx - 1); // 左
+      if (col < size - 1) neighbors.push(blankIdx + 1); // 右
+
+      const swapIdx = neighbors[Math.floor(Math.random() * neighbors.length)];
+      // 交换
+      [puzzleState[blankIdx], puzzleState[swapIdx]] = [puzzleState[swapIdx], puzzleState[blankIdx]];
+      blankIdx = swapIdx;
+    }
+
+    // 以防万一正好还原了（概率极小但安全起见）
+    if (isSolved()) {
+      // 交换前两个非零元素
+      const nonZero = puzzleState.map((v, i) => v !== 0 ? i : -1).filter(i => i >= 0);
+      if (nonZero.length >= 2) {
+        [puzzleState[nonZero[0]], puzzleState[nonZero[1]]] = [puzzleState[nonZero[1]], puzzleState[nonZero[0]]];
+      }
+    }
+  }
+
+  function isSolved() {
+    for (let i = 0; i < puzzleState.length - 1; i++) {
+      if (puzzleState[i] !== i + 1) return false;
+    }
+    return puzzleState[puzzleState.length - 1] === 0;
+  }
+
+  function canMove(idx) {
+    const blankIdx = puzzleState.indexOf(0);
+    const size = PUZZLE_SIZE;
+    const bRow = Math.floor(blankIdx / size);
+    const bCol = blankIdx % size;
+    const iRow = Math.floor(idx / size);
+    const iCol = idx % size;
+    return (Math.abs(bRow - iRow) + Math.abs(bCol - iCol)) === 1;
+  }
+
+  function moveTile(idx) {
+    if (puzzleSolved) return;
+    if (puzzleState[idx] === 0) return;
+    if (!canMove(idx)) return;
+
+    const blankIdx = puzzleState.indexOf(0);
+    [puzzleState[idx], puzzleState[blankIdx]] = [puzzleState[blankIdx], puzzleState[idx]];
+    renderPuzzle();
+
+    if (isSolved()) {
+      puzzleSolved = true;
+      solvedMsg.classList.add('show');
+      puzzleInfo.textContent = '🎉 拼图完成！恭喜你～';
+    }
+  }
+
+  function renderPuzzle() {
+    const size = PUZZLE_SIZE;
+    const hasImage = PUZZLE_IMAGE_URL && PUZZLE_IMAGE_URL.trim() !== '';
+
+    // 渐变色占位数组（仅无图时使用）
+    const colors = [
+      '#FFB6C9', '#FFC8D6', '#FFD6E0',
+      '#FFE0D0', '#FDE8D0', '#FFF0D0',
+      '#FFE4E8', '#FFD8E0', '#FFCCD4',
+    ];
+
+    grid.innerHTML = '';
+    puzzleState.forEach((val, idx) => {
+      const tile = document.createElement('div');
+      tile.className = 'puzzle-tile';
+      if (val === 0) {
+        tile.classList.add('puzzle-empty');
+      } else {
+        if (hasImage) {
+          // 图片模式：每块显示对应位置的图片区域
+          const v = val;
+          const imgCol = (v - 1) % size;
+          const imgRow = Math.floor((v - 1) / size);
+          const pctX = size > 1 ? (imgCol * 100 / (size - 1)) : 0;
+          const pctY = size > 1 ? (imgRow * 100 / (size - 1)) : 0;
+          tile.style.cssText += `background-image: url(${PUZZLE_IMAGE_URL}); background-size: ${size*100}% ${size*100}%; background-position: ${pctX}% ${pctY}%;`;
+        } else {
+          // 渐变占位模式（无图片时用）
+          const ci = (val - 1) % colors.length;
+          tile.style.background = `linear-gradient(135deg, ${colors[ci]}, ${colors[(ci+1)%colors.length]})`;
+          // 显示数字
+          const numSpan = document.createElement('span');
+          numSpan.style.cssText = 'font-size:24px;font-weight:700;';
+          numSpan.textContent = val;
+          tile.appendChild(numSpan);
+        }
+      }
+      tile.dataset.index = idx;
+      tile.addEventListener('click', function() {
+        moveTile(parseInt(this.dataset.index));
+      });
+      grid.appendChild(tile);
+    });
+  }
+
+  shuffleBtn.addEventListener('click', function() {
+    shufflePuzzle();
+    renderPuzzle();
+    puzzleSolved = false;
+    solvedMsg.classList.remove('show');
+    puzzleInfo.textContent = '已打乱，开始拼吧！';
+  });
+
+  initPuzzle();
+
+  /* ----------------------------------------------------------
+     === 模块七：许愿清单 =========================================
+     ---------------------------------------------------------- */
+  const wishListEl = document.getElementById('wish-list');
+
+  function renderWishes() {
+    wishListEl.innerHTML = '';
+    WISHES.forEach((wish, idx) => {
+      const li = document.createElement('li');
+      li.className = 'wish-item';
+      li.dataset.index = idx;
+
+      const check = document.createElement('span');
+      check.className = 'wish-check';
+      check.textContent = '✓';
+
+      const text = document.createElement('span');
+      text.className = 'wish-text';
+      text.textContent = wish;
+
+      li.appendChild(check);
+      li.appendChild(text);
+
+      li.addEventListener('click', function() {
+        const ck = this.querySelector('.wish-check');
+        ck.classList.toggle('checked');
+        // 更新后面文字状态
+      });
+
+      wishListEl.appendChild(li);
+    });
+  }
+  renderWishes();
+
+  /* ----------------------------------------------------------
+     === 模块八：留言板 ===========================================
+     ---------------------------------------------------------- */
+  const msgInput = document.getElementById('msg-input');
+  const msgSendBtn = document.getElementById('msg-send-btn');
+  const msgList = document.getElementById('message-list');
+  const STORAGE_KEY = 'love_capsule_messages';
+
+  function loadMessages() {
+    try {
+      const data = localStorage.getItem(STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch(e) { return []; }
+  }
+
+  function saveMessages(msgs) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(msgs));
+    } catch(e) { /* ignore */ }
+  }
+
+  function renderMessages() {
+    const msgs = loadMessages();
+    if (msgs.length === 0) {
+      msgList.innerHTML = '<div class="message-empty">还没有留言呢，写点什么吧～</div>';
+      return;
+    }
+    msgList.innerHTML = '';
+    msgs.forEach(m => {
+      const bubble = document.createElement('div');
+      bubble.className = 'message-bubble';
+      const timeStr = m.time || '';
+      bubble.innerHTML = `<div>${m.text}</div><span class="msg-time">${timeStr}</span>`;
+      msgList.appendChild(bubble);
+    });
+    msgList.scrollTop = msgList.scrollHeight;
+  }
+
+  function addMessage() {
+    const text = msgInput.value.trim();
+    if (!text) return;
+
+    const msgs = loadMessages();
+    const now = new Date();
+    const timeStr = now.getFullYear() + '-' +
+      String(now.getMonth()+1).padStart(2,'0') + '-' +
+      String(now.getDate()).padStart(2,'0') + ' ' +
+      String(now.getHours()).padStart(2,'0') + ':' +
+      String(now.getMinutes()).padStart(2,'0');
+
+    msgs.push({ text: text, time: timeStr });
+    saveMessages(msgs);
+    msgInput.value = '';
+    renderMessages();
+  }
+
+  msgSendBtn.addEventListener('click', addMessage);
+  msgInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      addMessage();
+    }
+  });
+
+  renderMessages();
+
+  /* ----------------------------------------------------------
+     === 模块九：终极告白 — 渐进式显示 ==============================
+     ---------------------------------------------------------- */
+  const confessionBtn = document.getElementById('confession-btn');
+  const modal = document.getElementById('confession-modal');
+  const modalClose = document.getElementById('confession-modal-close');
+  const progressiveEl = document.getElementById('progressive-confession');
+  const skipBtn = document.getElementById('confession-skip-btn');
+  const tapHint = document.querySelector('.confession-tap-hint');
+
+  // 把告白信拆成句子（按换行和句号/感叹号/问号分割）
+  function splitIntoLines(text) {
+    const raw = text.trim().split('\n').map(s => s.trim()).filter(s => s);
+    const lines = [];
+    raw.forEach(block => {
+      // 进一步按中文标点拆短句
+      const parts = block.split(/(?<=[。！？!?])/).map(s => s.trim()).filter(s => s);
+      if (parts.length > 1) {
+        lines.push(...parts);
+      } else {
+        lines.push(block);
+      }
+    });
+    // 过滤太短的行（纯标点）
+    return lines.filter(l => l.length > 1);
+  }
+
+  let confessionLines = [];
+  let currentLineIdx = -1;
+  let progressiveTimer = null;
+  let isProgressiveDone = false;
+
+  function showNextLine() {
+    if (currentLineIdx >= confessionLines.length - 1) {
+      // 已显示完所有行
+      clearInterval(progressiveTimer);
+      progressiveTimer = null;
+      isProgressiveDone = true;
+      tapHint.textContent = '💕 写给你的每一句，都是真心话';
+      return;
+    }
+    currentLineIdx++;
+    const line = confessionLines[currentLineIdx];
+    const div = document.createElement('div');
+    div.className = 'progressive-line';
+    // 随机爱心/星星点缀
+    const sparkles = [' ✨', ' 💕', ' 💗', ' 🌸', ' ✦', ''];
+    const sparkle = sparkles[Math.floor(Math.random() * sparkles.length)];
+    // 如果是空行（段落分隔），用空白占位
+    if (line === '') {
+      div.innerHTML = '&nbsp;';
+      div.style.minHeight = '12px';
+    } else {
+      div.innerHTML = line + (sparkle ? `<span class="line-sparkle">${sparkle}</span>` : '');
+    }
+    progressiveEl.appendChild(div);
+    // 触发淡入动画
+    requestAnimationFrame(() => {
+      div.classList.add('visible');
+    });
+    // 滚动到底部
+    progressiveEl.scrollTop = progressiveEl.scrollHeight;
+  }
+
+  function showAllLines() {
+    // 跳过动画，直接显示全部
+    if (progressiveTimer) {
+      clearInterval(progressiveTimer);
+      progressiveTimer = null;
+    }
+    // 清空并一次性显示所有行
+    progressiveEl.innerHTML = '';
+    confessionLines.forEach((line, i) => {
+      const div = document.createElement('div');
+      div.className = 'progressive-line visible';
+      if (line === '') {
+        div.innerHTML = '&nbsp;';
+        div.style.minHeight = '12px';
+      } else {
+        div.innerHTML = line;
+      }
+      progressiveEl.appendChild(div);
+    });
+    currentLineIdx = confessionLines.length - 1;
+    isProgressiveDone = true;
+    tapHint.textContent = '💕 写给你的每一句，都是真心话';
+    progressiveEl.scrollTop = progressiveEl.scrollHeight;
+  }
+
+  confessionBtn.addEventListener('click', function() {
+    // 初始化渐进显示
+    confessionLines = splitIntoLines(CONFESSION_LETTER);
+    currentLineIdx = -1;
+    isProgressiveDone = false;
+    progressiveEl.innerHTML = '';
+    tapHint.textContent = '💫 点击任意位置可跳到下一句';
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+
+    // 开始自动播放
+    showNextLine(); // 第一句立即显示
+    progressiveTimer = setInterval(() => {
+      showNextLine();
+    }, 1800);
+
+    // 撒花 + 爱心雨
+    startConfetti();
+  });
+
+  // 点击弹窗内容区域 → 下一句
+  document.querySelector('.confession-modal-content').addEventListener('click', function(e) {
+    if (e.target.closest('.confession-modal-close') || e.target.closest('.confession-skip-btn')) return;
+    if (!isProgressiveDone) {
+      // 跳到下一句
+      if (progressiveTimer) {
+        clearInterval(progressiveTimer);
+        progressiveTimer = null;
+      }
+      showNextLine();
+      // 如果还没到最后一行，恢复自动播放
+      if (currentLineIdx < confessionLines.length - 1) {
+        progressiveTimer = setInterval(() => {
+          showNextLine();
+        }, 1800);
+      }
+    }
+  });
+
+  // 跳过按钮
+  skipBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    showAllLines();
+  });
+
+  function closeModal() {
+    modal.classList.remove('show');
+    document.body.style.overflow = '';
+    if (progressiveTimer) {
+      clearInterval(progressiveTimer);
+      progressiveTimer = null;
+    }
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) closeModal();
+  });
+
+  function startConfetti() {
+    const symbols = ['🌸', '💖', '✨', '❤', '🎉', '💗', '🌺', '🎊', '💕', '⭐'];
+    let count = 0;
+    const maxPieces = 120;
+    const interval = setInterval(() => {
+      if (count >= maxPieces) {
+        clearInterval(interval);
+        return;
+      }
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      piece.style.left = Math.random() * 100 + '%';
+      piece.style.fontSize = (14 + Math.random() * 18) + 'px';
+      piece.style.animationDuration = (2.5 + Math.random() * 3) + 's';
+      piece.style.opacity = 0.5 + Math.random() * 0.5;
+      document.body.appendChild(piece);
+      count++;
+      setTimeout(() => piece.remove(), 5000);
+    }, 60);
+    setTimeout(() => clearInterval(interval), 8000);
+  }
+
+  /* ----------------------------------------------------------
+     === 新增模块：每天想你了吗 — 打卡 =============================
+     ---------------------------------------------------------- */
+  const CHECKIN_KEY = 'love_capsule_checkin';
+
+  function getCheckinData() {
+    try {
+      return JSON.parse(localStorage.getItem(CHECKIN_KEY)) || { dates: [] };
+    } catch(e) { return { dates: [] }; }
+  }
+
+  function saveCheckinData(data) {
+    try { localStorage.setItem(CHECKIN_KEY, JSON.stringify(data)); } catch(e) {}
+  }
+
+  function formatDate(d) {
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+
+  function getTodayStr() {
+    return formatDate(new Date());
+  }
+
+  function calcStreak(dates) {
+    if (!dates.length) return 0;
+    const sorted = [...dates].sort().reverse();
+    let streak = 1;
+    const today = getTodayStr();
+    // 如果最新日期不是今天也不是昨天，说明断了
+    const last = new Date(sorted[0]);
+    const now = new Date();
+    const diffDays = Math.round((now - last) / 86400000);
+    if (diffDays > 1) return 0;
+
+    for (let i = 0; i < sorted.length - 1; i++) {
+      const curr = new Date(sorted[i]);
+      const prev = new Date(sorted[i+1]);
+      const diff = Math.round((curr - prev) / 86400000);
+      if (diff === 1) {
+        streak++;
+      } else {
+        break;
+      }
+    }
+    return streak;
+  }
+
+  function updateCheckinUI() {
+    const data = getCheckinData();
+    const today = getTodayStr();
+    const checkedIn = data.dates.includes(today);
+    const btn = document.getElementById('checkin-btn');
+    const streakNum = document.getElementById('streak-num');
+    const msg = document.getElementById('checkin-msg');
+    const history = document.getElementById('checkin-history');
+    const heart = document.getElementById('checkin-heart');
+
+    const streak = calcStreak(data.dates);
+    streakNum.textContent = streak;
+
+    if (checkedIn) {
+      btn.disabled = true;
+      btn.textContent = '💗 今天已打卡 ✅';
+      msg.textContent = '收到你的想念啦～ 明天也要来哦 💕';
+      msg.style.opacity = '1';
+      heart.textContent = '❤️';
+    } else {
+      btn.disabled = false;
+      btn.textContent = '💖 今天也想浚洋了';
+      msg.textContent = '';
+      heart.textContent = '💗';
+    }
+
+    if (data.dates.length > 0) {
+      const totalDates = data.dates.length;
+      const firstDate = data.dates.sort()[0];
+      history.textContent = '📅 从 ' + firstDate + ' 开始，已累计想念 ' + totalDates + ' 次';
+    } else {
+      history.textContent = '';
+    }
+  }
+
+  document.getElementById('checkin-btn').addEventListener('click', function() {
+    const data = getCheckinData();
+    const today = getTodayStr();
+    if (data.dates.includes(today)) return;
+
+    data.dates.push(today);
+    saveCheckinData(data);
+
+    // 爱心跳动动画
+    const heart = document.getElementById('checkin-heart');
+    heart.classList.remove('beat');
+    void heart.offsetWidth;
+    heart.classList.add('beat');
+
+    // 更新UI
+    updateCheckinUI();
+
+    // 额外反馈
+    const msg = document.getElementById('checkin-msg');
+    msg.textContent = '💌 已收到你的想念~ 浚洋也想你！';
+    msg.style.opacity = '1';
+  });
+
+  updateCheckinUI();
+
+  /* ----------------------------------------------------------
+     === 新增模块：双人问答匹配游戏 ================================
+     ---------------------------------------------------------- */
+  // ↓ 在这里修改题目（"answer" 是正确选项的文本，需和 options 中某一项完全一致）
+  const MATCH_QUESTIONS = [
+    {
+      question: '我们第一次旅游去了哪个城市？',
+      options: ['郑州', '洛阳', '徐州', '宝丰'],
+      answer: '洛阳',
+      successMsg: '🎉 对啦！洛阳的那个夜晚，永远忘不了～',
+      failMsg: '🤔 再想想？是第一次一起过夜的城市哦～',
+    },
+    {
+      question: '我们在一起多少天了？（从2024.10.1算起）',
+      options: ['不到100天', '100-300天', '300-500天', '超过500天'],
+      answer: '超过500天',
+      successMsg: '🌟 没错！每一天都是满满的幸福～',
+      failMsg: '😊 提示一下：我们从2024.10.1在一起的哦～',
+    },
+    {
+      question: '浚洋的家乡是哪里？',
+      options: ['郑州', '洛阳', '鲁山', '宝丰'],
+      answer: '鲁山',
+      successMsg: '🎯 答对了！鲁山的浚洋，是你家的浚洋 😄',
+      failMsg: '😅 再想想，旅行结束的时候他回了哪里？',
+    },
+    {
+      question: '露露科目一考了多少分？',
+      options: ['90分', '95分', '100分', '98分'],
+      answer: '100分',
+      successMsg: '🏆 满分！露露最棒了～',
+      failMsg: '💪 再试一次，我记得是三位数的满分哦！',
+    },
+    {
+      question: '我们第一次一起看的电影是什么？',
+      options: ['《哪吒2》', '《封神2》', '《流浪地球3》', '《唐人街探案4》'],
+      answer: '《哪吒2》',
+      successMsg: '🎬 答对了！哪吒都没有我们燃～要一直一直一起看电影！',
+      failMsg: '🎥 提示一下：是我们2026.5.30看的那部～是个动画片哦！',
+    },
+    {
+      question: '浚洋最喜欢露露什么地方？',
+      options: ['眼睛', '笑容', '性格', '以上全部'],
+      answer: '以上全部',
+      successMsg: '💖 没错！你的一切我都喜欢～',
+      failMsg: '😊 标准答案——你的一切，怎么样？',
+    },
+    {
+      question: '父亲节那天露露发了多少红包？',
+      options: ['5.20元', '9.9元', '13.14元', '52.0元'],
+      answer: '9.9元',
+      successMsg: '💰 对对对！小小的红包大大的心意～',
+      failMsg: '🧧 再回忆一下～是带着"久"的寓意那个数～',
+    },
+  ];
+
+  let matchCurrentQ = 0;
+  let matchCorrectCount = 0;
+  let matchAnswered = false;
+
+  function renderMatchQuestion() {
+    const container = document.getElementById('match-render');
+    if (matchCurrentQ >= MATCH_QUESTIONS.length) {
+      // 显示结果
+      const total = MATCH_QUESTIONS.length;
+      container.innerHTML = `
+        <div class="match-result-card show">
+          <div style="font-size:16px;color:var(--warm-text-light);">🎀 默契大考验结果</div>
+          <div class="match-score">${matchCorrectCount} / ${total}</div>
+          <div style="font-size:15px;color:var(--warm-text);margin-bottom:8px;">
+            ${matchCorrectCount === total ? '满分！我们太默契了！💕' : matchCorrectCount >= total * 0.7 ? '很懂彼此嘛～继续加油！💪' : '看来要多制造一些回忆啦～😊'}
+          </div>
+          <button class="match-restart-btn" id="match-restart-btn">🔄 再来一次</button>
+        </div>
+      `;
+      document.getElementById('match-restart-btn').addEventListener('click', function() {
+        matchCurrentQ = 0;
+        matchCorrectCount = 0;
+        renderMatchQuestion();
+      });
+      return;
+    }
+
+    const q = MATCH_QUESTIONS[matchCurrentQ];
+    matchAnswered = false;
+    const progressText = '第 ' + (matchCurrentQ + 1) + ' / ' + MATCH_QUESTIONS.length + ' 题';
+
+    let html = '';
+    html += '<div class="match-progress">' + progressText + '</div>';
+    html += '<div class="match-q-text">' + q.question + '</div>';
+    html += '<div class="match-options" id="match-options">';
+    q.options.forEach((opt, oi) => {
+      html += '<div class="match-option" data-idx="' + oi + '">' +
+        '<span class="radio-circle"></span>' +
+        '<span>' + opt + '</span>' +
+        '</div>';
+    });
+    html += '</div>';
+    html += '<div class="match-feedback" id="match-feedback"></div>';
+
+    container.innerHTML = html;
+
+    document.querySelectorAll('.match-option').forEach(el => {
+      el.addEventListener('click', function() {
+        if (matchAnswered) return;
+        matchAnswered = true;
+
+        const idx = parseInt(this.dataset.idx);
+        const selected = q.options[idx];
+        const isCorrect = selected === q.answer;
+
+        // 禁用所有选项
+        document.querySelectorAll('.match-option').forEach(opt => opt.classList.add('disabled'));
+
+        const feedback = document.getElementById('match-feedback');
+        if (isCorrect) {
+          this.classList.add('correct');
+          feedback.className = 'match-feedback success';
+          feedback.textContent = q.successMsg;
+          matchCorrectCount++;
+        } else {
+          this.classList.add('wrong');
+          feedback.className = 'match-feedback hint';
+          feedback.textContent = q.failMsg;
+          // 标记正确答案
+          document.querySelectorAll('.match-option').forEach(opt => {
+            if (opt.querySelector('span:last-child').textContent === q.answer) {
+              opt.classList.add('correct');
+            }
+          });
+        }
+
+        // 0.8秒后自动跳到下一题
+        setTimeout(() => {
+          matchCurrentQ++;
+          renderMatchQuestion();
+        }, 1200);
+      });
+    });
+  }
+
+  renderMatchQuestion();
+
+  /* ----------------------------------------------------------
+     === 新增模块：AI整蛊视频生成彩蛋 ==============================
+     ---------------------------------------------------------- */
+  // ↓ 在这里修改AI视频生成的加载文案（轮播展示）
+  const AI_LOADING_TEXTS = [
+    '🤖 正在启动AI引擎…',
+    '📡 正在连接宇宙信号…',
+    '🔥 正在分析帅气指数…',
+    '💫 正在生成沙雕特效…',
+    '🎬 正在渲染甜蜜画面…',
+    '🌈 正在调色（加了一百层滤镜）…',
+    '✨ 正在给你的笑容打光…',
+    '🎵 正在配乐（自动选了最土的情歌）…',
+    '💝 正在注入心动能量…',
+    '🚀 马上就要完成了！',
+  ];
+
+  // ↓ 在这里修改AI视频生成的"结果"文案（每次随机一条）
+  const AI_RESULT_TITLES = [
+    '【年度催泪巨制】我们的故事',
+    '【爆款】论一对神仙眷侣的日常',
+    '【独家首发】邱浚洋 × 姬晨露 主演',
+    '🎬 奥斯卡级短片：遇见你',
+  ];
+
+  // ↓ 在这里修改AI视频生成的"描述"文案（每次随机一条）
+  const AI_RESULT_DESCS = [
+    '本片讲述了两位主人公从相识到相爱的感人故事，全程高甜，建议备好纸巾观看。🥹',
+    '⚠️ 温馨提示：观看本视频可能导致嘴角疯狂上扬、心脏砰砰跳等甜蜜副作用。',
+    'AI评价：这对情侣简直是行走的狗粮制造机，建议民政局直接搬过来。💍',
+    '数据分析显示：你们的匹配度高达 99.99%，剩余 0.01% 是留给未来的惊喜 ✨',
+  ];
+
+  // ↓ 在这里修改AI视频的"标签"（一组标签，每次随机选2-3个）
+  const AI_VIDEO_TAGS = [
+    '甜到爆炸', '全程高能', '建议反复观看',
+    '年度最佳', '磕到了', '神仙爱情',
+    '邱浚洋导演作品', '姬晨露主演',
+  ];
+
+  const aiLaunchBtn = document.getElementById('ai-launch-btn');
+  const aiLoading = document.getElementById('ai-loading');
+  const aiResult = document.getElementById('ai-result');
+  const aiBarFill = document.getElementById('ai-loading-bar-fill');
+  const aiPercent = document.getElementById('ai-loading-percent');
+  const aiLoadingText = document.getElementById('ai-loading-text');
+  const aiVideoTitle = document.getElementById('ai-video-title');
+  const aiVideoDesc = document.getElementById('ai-video-desc');
+  const aiVideoTags = document.getElementById('ai-video-tags');
+  const aiRetryBtn = document.getElementById('ai-retry-btn');
+  let aiLoadingTimer = null;
+
+  function startAILoading() {
+    // 重置 UI
+    aiLoading.classList.add('show');
+    aiResult.classList.remove('show');
+    aiBarFill.style.width = '0%';
+    aiPercent.textContent = '0%';
+    aiLaunchBtn.style.display = 'none';
+
+    let progress = 0;
+    let textIdx = 0;
+    const totalDuration = 6000 + Math.random() * 2000; // 6-8秒
+    const interval = 150;
+    const step = 100 / (totalDuration / interval);
+
+    // 显示第一条文案
+    aiLoadingText.textContent = AI_LOADING_TEXTS[0];
+
+    aiLoadingTimer = setInterval(() => {
+      progress += step;
+      if (progress >= 100) {
+        progress = 100;
+        clearInterval(aiLoadingTimer);
+        aiLoadingTimer = null;
+        showAIResult();
+      }
+      aiBarFill.style.width = progress + '%';
+      aiPercent.textContent = Math.floor(progress) + '%';
+
+      // 每10%左右换一次文案
+      const newTextIdx = Math.min(
+        Math.floor((progress / 100) * AI_LOADING_TEXTS.length),
+        AI_LOADING_TEXTS.length - 1
+      );
+      if (newTextIdx !== textIdx) {
+        textIdx = newTextIdx;
+        aiLoadingText.textContent = AI_LOADING_TEXTS[textIdx];
+      }
+    }, interval);
+  }
+
+  function showAIResult() {
+    aiLoading.classList.remove('show');
+    aiResult.classList.add('show');
+
+    // 随机选取结果文案
+    const title = AI_RESULT_TITLES[Math.floor(Math.random() * AI_RESULT_TITLES.length)];
+    const desc = AI_RESULT_DESCS[Math.floor(Math.random() * AI_RESULT_DESCS.length)];
+    aiVideoTitle.textContent = title;
+    aiVideoDesc.textContent = desc;
+
+    // 随机选 2-3 个标签
+    const shuffled = [...AI_VIDEO_TAGS].sort(() => Math.random() - 0.5);
+    const tagCount = 2 + Math.floor(Math.random() * 2);
+    aiVideoTags.innerHTML = shuffled.slice(0, tagCount).map(t =>
+      '<span class="ai-video-tag">' + t + '</span>'
+    ).join('');
+  }
+
+  aiLaunchBtn.addEventListener('click', startAILoading);
+  aiRetryBtn.addEventListener('click', function() {
+    aiResult.classList.remove('show');
+    startAILoading();
+  });
+
+  /* ----------------------------------------------------------
+     === 新增模块：照片整蛊贴纸生成器 ==============================
+     ---------------------------------------------------------- */
+  // ↓ 在这里修改贴纸emoji列表
+  const STICKER_EMOJIS = ['👑', '😎', '❤️', '⭐', '🌈', '💎', '🔥', '🌟', '💖', '✨', '🎀', '🥇'];
+
+  // ↓ 在这里修改贴纸标签文案（随机选一条盖在照片上）
+  const STICKER_LABELS = [
+    '本周最佳帅哥认证 🏆',
+    '老婆专属心动男友 💕',
+    '今日份帅气已送达 📬',
+    '此人有毒，已上瘾 🫠',
+    '超级无敌大可爱 🧸',
+    '露露认证·优质男友 ✅',
+    '全糖去冰·满分男友 🧋',
+    '国家一级保护动物·你的宝 🐨',
+  ];
+
+  // ↓ 边框颜色方案
+  const STICKER_BORDERS = [
+    'linear-gradient(135deg, #FF6B6B, #FFE66D)',
+    'linear-gradient(135deg, #A855F7, #EC4899)',
+    'linear-gradient(135deg, #34D399, #60A5FA)',
+    'linear-gradient(135deg, #FBBF24, #F97316)',
+    'linear-gradient(135deg, #F472B6, #8B5CF6)',
+  ];
+
+  const fileInput = document.getElementById('sticker-file-input');
+  const uploadArea = document.getElementById('sticker-upload-area');
+  const canvasWrap = document.getElementById('sticker-canvas-wrap');
+  const stickerPhoto = document.getElementById('sticker-photo');
+  const stickerOverlay = document.getElementById('sticker-overlay');
+  const reshuffleBtn = document.getElementById('sticker-reshuffle-btn');
+  const resetBtn = document.getElementById('sticker-reset-btn');
+
+  let currentPhotoDataUrl = null;
+
+  uploadArea.addEventListener('click', function() {
+    fileInput.click();
+  });
+
+  fileInput.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      currentPhotoDataUrl = ev.target.result;
+      stickerPhoto.src = currentPhotoDataUrl;
+      uploadArea.style.display = 'none';
+      canvasWrap.classList.add('show');
+      applyStickers();
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function applyStickers() {
+    if (!currentPhotoDataUrl) return;
+    stickerOverlay.innerHTML = '';
+
+    // 随机选边框颜色（用伪元素 + border 模拟）
+    const borderIdx = Math.floor(Math.random() * STICKER_BORDERS.length);
+    const parent = stickerPhoto.parentElement;
+    parent.style.padding = '6px';
+    parent.style.background = STICKER_BORDERS[borderIdx];
+    parent.style.borderRadius = 'var(--radius-sm)';
+
+    // 随机放 3-5 个 emoji 贴纸
+    const emojiCount = 3 + Math.floor(Math.random() * 3);
+    const positions = [];
+    for (let i = 0; i < emojiCount; i++) {
+      const emoji = STICKER_EMOJIS[Math.floor(Math.random() * STICKER_EMOJIS.length)];
+      const top = 5 + Math.random() * 65; // %
+      const left = 3 + Math.random() * 70; // %
+      // 避免重叠太严重
+      const tooClose = positions.some(p =>
+        Math.abs(p.top - top) < 15 && Math.abs(p.left - left) < 15
+      );
+      if (tooClose) continue;
+      positions.push({ top, left });
+
+      const el = document.createElement('span');
+      el.className = 'sticker-emoji-el';
+      el.textContent = emoji;
+      el.style.top = top + '%';
+      el.style.left = left + '%';
+      el.style.fontSize = (24 + Math.random() * 20) + 'px';
+      el.style.animationDelay = (Math.random() * 0.5) + 's';
+      stickerOverlay.appendChild(el);
+    }
+
+    // 随机选一条标签文案
+    const label = STICKER_LABELS[Math.floor(Math.random() * STICKER_LABELS.length)];
+    const labelEl = document.createElement('span');
+    labelEl.className = 'sticker-label-el';
+    labelEl.textContent = label;
+    // 放在底部居中区域
+    labelEl.style.bottom = '10%';
+    labelEl.style.left = '50%';
+    labelEl.style.transform = 'translateX(-50%)';
+    labelEl.style.animationDelay = '0.3s';
+    stickerOverlay.appendChild(labelEl);
+  }
+
+  reshuffleBtn.addEventListener('click', function() {
+    applyStickers();
+  });
+
+  resetBtn.addEventListener('click', function() {
+    canvasWrap.classList.remove('show');
+    uploadArea.style.display = 'block';
+    stickerOverlay.innerHTML = '';
+    currentPhotoDataUrl = null;
+    stickerPhoto.src = '';
+    fileInput.value = '';
+  });
+
+  /* ----------------------------------------------------------
+     === 通用：模块滚动观察（用于底部模块动画）====================
+     ---------------------------------------------------------- */
+  function observeAll() {
+    const sections = document.querySelectorAll('#stats-section, #quote-section, #quiz-section, #puzzle-section, #checkin-section, #match-section, #ai-video-section, #sticker-section, #wish-section, #message-section, #confession-section');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('section-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(sec => {
+      obs.observe(sec);
+    });
+  }
+  // 页面加载后立即准备 Observer（主内容 hidden 时不会触发）
+  observeAll();
+
+  /* ----------------------------------------------------------
+     === 统计模块：滚动动画数字 ====================================
+     ---------------------------------------------------------- */
+  function animateCounter(el, target, duration) {
+    const start = performance.now();
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      // easeOutExpo
+      const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      const current = Math.round(eased * target);
+      el.textContent = current;
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(update);
+  }
+
+  const statsObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter(document.getElementById('stat-photos'), 20, 1500);
+        animateCounter(document.getElementById('stat-cities'), 5, 1500);
+        animateCounter(document.getElementById('stat-moments'), 20, 1500);
+        statsObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const statsSection = document.getElementById('stats-section');
+  if (statsSection) statsObs.observe(statsSection);
+
+  /* ----------------------------------------------------------
+     === 背景音乐控制 =============================================
+     ---------------------------------------------------------- */
+  const musicToggle = document.getElementById('music-toggle');
+  const bgMusic = document.getElementById('bg-music');
+
+  if (musicToggle && bgMusic) {
+    musicToggle.addEventListener('click', function() {
+      if (bgMusic.paused || bgMusic.muted) {
+        bgMusic.muted = false;
+        bgMusic.play().catch(function() {
+          // 浏览器可能阻止自动播放，用户点击后通常可以播放
+        });
+        musicToggle.classList.remove('muted');
+        musicToggle.textContent = '🔊';
+        musicToggle.title = '点击静音';
+      } else {
+        bgMusic.pause();
+        musicToggle.classList.add('muted');
+        musicToggle.textContent = '🎵';
+        musicToggle.title = '点击播放背景音乐';
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>
