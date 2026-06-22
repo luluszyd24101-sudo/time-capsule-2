@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>💊 恋爱时间胶囊 — 邱浚洋 ❤ 姬晨露</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon.svg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#FFB6C9">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
@@ -4003,6 +4008,21 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
       .catch(function() {
         list.innerHTML = '<div class="changelog-empty">更新日志加载失败，请检查网络连接 \u{1F4DD}</div>';
       });
+
+  /* ----------------------------------------------------------
+     === PWA: 注册 Service Worker（离线访问支持）=================
+     ---------------------------------------------------------- */
+  if ('serviceWorker' in navigator) {
+    var SW_URL = BASE_URL + 'service-worker.js';
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register(SW_URL).then(function(reg) {
+        console.log('SW registered:', reg.scope);
+      }).catch(function(err) {
+        console.log('SW registration failed:', err);
+      });
+    });
+  }
+
   })();
 
 </script>
