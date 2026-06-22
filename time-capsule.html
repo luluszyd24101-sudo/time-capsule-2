@@ -2072,7 +2072,7 @@ body {
       <button class="confession-skip-btn" id="confession-skip-btn">📖 跳过动画，直接看全文</button>
       <div class="confession-tap-hint">💫 点击任意位置可跳到下一句</div>
     </div>
-    <img src="images/2026-01-31-01.jpg" alt="我们的回忆" class="confession-photo" loading="lazy">
+    <img src="https://luluszyd24101-sudo.github.io/time-capsule-2/images/01.jpg" alt="我们的回忆" class="confession-photo" loading="lazy">
   </div>
 </div>
 
@@ -2223,7 +2223,8 @@ const CONFESSION_LETTER = `
 // ===== 拼图图片路径 ============================================
 // ↓ 在这里替换拼图图片的 URL（直接引号内填图片路径）
 // ↓ 目前是渐变占位色，替换为图片后拼图会自动使用图片切割效果
-const PUZZLE_IMAGE_URL = 'images/04.jpg';
+const BASE_URL = 'https://luluszyd24101-sudo.github.io/time-capsule-2/';
+const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
 
 // ============================================================
 // ====== 核心代码 — 一般情况下不需要修改 ========================
@@ -2385,7 +2386,7 @@ const PUZZLE_IMAGE_URL = 'images/04.jpg';
     const div = document.createElement('div');
     div.className = 'timeline-item';
     div.dataset.index = index;
-    const photoHtml = item.photo ? `<img src="images/${item.photo}" alt="回忆照片" class="timeline-photo" loading="lazy">` : '';
+    const photoHtml = item.photo ? `<img src="${BASE_URL}images/${item.photo}" alt="回忆照片" class="timeline-photo" loading="lazy">` : '';
     div.innerHTML = `
       <div class="timeline-date">${item.date}</div>
       <div class="timeline-card">
