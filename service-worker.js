@@ -1,4 +1,4 @@
-const CACHE_NAME = 'time-capsule-v1';
+const CACHE_NAME = 'time-capsule-v20260622';
 
 // 需要缓存的静态资源
 const PRECACHE_URLS = [
@@ -36,35 +36,25 @@ self.addEventListener('activate', function(event) {
   );
 });
 
-// 拦截请求：缓存优先（离线也能访问）
+// 拦截请求：网络优先，缓存兜底（手机总能拿到最新版）
 self.addEventListener('fetch', function(event) {
   // 只缓存 GET 请求
   if (event.request.method !== 'GET') return;
 
   event.respondWith(
-    caches.match(event.request).then(function(cachedResponse) {
-      if (cachedResponse) {
-        // 有缓存 → 返回缓存（离线可用）
-        return cachedResponse;
-      }
-
-      // 没缓存 → 发起网络请求
-      return fetch(event.request).then(function(response) {
-        // 只缓存有效响应
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-          return response;
-        }
-
-        // 克隆响应（流只能消费一次）
+    fetch(event.request).then(function(response) {
+      // 缓存成功的响应
+      if (response && response.status === 200) {
         var responseToCache = response.clone();
         caches.open(CACHE_NAME).then(function(cache) {
           cache.put(event.request, responseToCache);
         });
-
-        return response;
-      }).catch(function() {
-        // 网络失败时，尝试返回缓存的 fallback 页面
-        return caches.match('./time-capsule.html');
+      }
+      return response;
+    }).catch(function() {
+      // 离线时使用缓存
+      return caches.match(event.request).then(function(cached) {
+        return cached || caches.match('./time-capsule.html');
       });
     })
   );
