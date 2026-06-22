@@ -2076,15 +2076,28 @@ body {
   </div>
 </div>
 
-  <!-- 背景音乐（默认静音，需自行替换 src 为音乐文件路径） -->
-  <!-- 推荐免费轻音乐源：https://pixabay.com/music/ 或 https://www.bensound.com/ -->
-  <audio id="bg-music" loop preload="none" muted>
-    <!-- ↓ 在这里替换为你下载的轻音乐文件路径 -->
-    <source src="" type="audio/mpeg">
-  </audio>
+  <!-- 🎵 背景音乐 — 每次打开页面自动换一首流行音乐！
+       ============================================================
+       我准备了 4 首免费流行歌曲，每次打开页面随机播一首
+       都是节奏轻快、甜甜的风格，很适合这个页面 💕
 
-  <!-- 音乐开关按钮 -->
-  <button id="music-toggle" class="muted" title="点击播放背景音乐">🎵</button>
+       🔄 想换成你们喜欢的歌？非常简单：
+
+       方法一：把 MP3 文件放到 images/ 文件夹
+         然后修改下面 playlist 里的路径，例如：
+         'images/我们的歌.mp3'
+
+       方法二：用网易云音乐
+         改成：'https://music.163.com/song/media/outer/url?id=歌曲ID.mp3'
+         比如周杰伦《告白气球》ID=436514312
+
+       方法三：用其他在线 MP3 链接
+         直接把链接填进 playlist 就行
+       ============================================================ -->
+  <audio id="bg-music" loop preload="auto"></audio>
+
+  <!-- 音乐开关按钮 → 女朋友随时点一下就能静音/取消静音 -->
+  <button id="music-toggle" title="点击播放背景音乐">🔇</button>
 
 <script>
 /* ============================================================
@@ -2278,6 +2291,8 @@ const PUZZLE_IMAGE_URL = 'images/04.jpg';
       window.scrollTo(0, 0);
       // 初始化需要滚动观察的模块（Observer 已预先设定好）
       setupTimelineObserver();
+      // 🎵 打开信封后自动播放音乐
+      startMusic();
     }, 600);
   }
 
@@ -3452,25 +3467,78 @@ const PUZZLE_IMAGE_URL = 'images/04.jpg';
   if (statsSection) statsObs.observe(statsSection);
 
   /* ----------------------------------------------------------
-     === 背景音乐控制 =============================================
+     === 背景音乐控制（自动播放 + 随机歌单 + 可切换）===============
      ---------------------------------------------------------- */
   const musicToggle = document.getElementById('music-toggle');
   const bgMusic = document.getElementById('bg-music');
+  let musicStarted = false;
 
-  if (musicToggle && bgMusic) {
-    musicToggle.addEventListener('click', function() {
-      if (bgMusic.paused || bgMusic.muted) {
-        bgMusic.muted = false;
-        bgMusic.play().catch(function() {
-          // 浏览器可能阻止自动播放，用户点击后通常可以播放
-        });
+  // 🎵 流行歌曲播放列表（每次打开随机播一首）
+  // 想换歌直接改这里，支持本地MP3和在线链接
+  const PLAYLIST = [
+    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',   // 轻快流行
+    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',   // 浪漫流行
+    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3',  // 欢快流行
+    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3',  // 甜美流行
+  ];
+
+  // 随机选一首歌
+  function pickRandomSong() {
+    const idx = Math.floor(Math.random() * PLAYLIST.length);
+    return PLAYLIST[idx];
+  }
+
+  // 换一首歌（给按钮用）
+  function changeSong() {
+    const newSong = pickRandomSong();
+    // 避免连续随机到同一首
+    while (newSong === bgMusic.querySelector('source')?.src && PLAYLIST.length > 1) {
+      newSong = pickRandomSong();
+    }
+    // 更新音频源
+    bgMusic.innerHTML = '<source src="' + newSong + '" type="audio/mpeg">';
+    bgMusic.load();
+    if (!bgMusic.paused) {
+      bgMusic.play().catch(function() {});
+    }
+  }
+
+  // 🎵 开始播放音乐（由打开信封时调用）
+  function startMusic() {
+    if (musicStarted) return;
+    musicStarted = true;
+    if (bgMusic) {
+      // 随机选一首歌
+      const song = pickRandomSong();
+      bgMusic.innerHTML = '<source src="' + song + '" type="audio/mpeg">';
+      bgMusic.load();
+      bgMusic.muted = false;
+      bgMusic.play().catch(function() {
+        // 如果自动播放被阻止，用户点击音乐按钮也可以播放
+        musicStarted = false;
+      });
+      if (musicToggle) {
         musicToggle.classList.remove('muted');
         musicToggle.textContent = '🔊';
         musicToggle.title = '点击静音';
+      }
+    }
+  }
+
+  // 切换播放/静音
+  if (musicToggle && bgMusic) {
+    musicToggle.addEventListener('click', function() {
+      if (bgMusic.paused) {
+        bgMusic.muted = false;
+        bgMusic.play().catch(function() {});
+        musicToggle.classList.remove('muted');
+        musicToggle.textContent = '🔊';
+        musicToggle.title = '点击静音';
+        musicStarted = true;
       } else {
         bgMusic.pause();
         musicToggle.classList.add('muted');
-        musicToggle.textContent = '🎵';
+        musicToggle.textContent = '🔇';
         musicToggle.title = '点击播放背景音乐';
       }
     });
