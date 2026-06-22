@@ -2528,8 +2528,9 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
   // 统一处理点击/触屏，用 guard 防止重复触发
   overlay.addEventListener('click', openEnvelope);
   overlay.addEventListener('touchstart', function(e) {
-    // 只响应手指点击，不干扰 scroll
-  }, { passive: true });
+    openEnvelope();
+    e.preventDefault();
+  }, { passive: false });
 
   /* ----------------------------------------------------------
      === 模块二：恋爱计时器 =======================================
@@ -3705,10 +3706,10 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
   // 🎵 流行歌曲播放列表（每次打开随机播一首）
   // 想换歌直接改这里，支持本地MP3和在线链接
   const PLAYLIST = [
-    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',   // 轻快流行
-    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',   // 浪漫流行
-    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3',  // 欢快流行
-    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3',  // 甜美流行
+    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',   // 温柔钢琴
+    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',   // 浪漫告白
+    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3',  // 甜蜜轻缓
+    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3',  // 柔和抒情
   ];
 
   // 随机选一首歌
@@ -3920,7 +3921,7 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
       container.innerHTML = '';
       var items = [
         { label: '\u{1F382} 露露生日', emoji: '\u{1F382}', getT: getBirthday },
-        { label: '\u{1F49C} 七弎节', emoji: '\u{1F49C}', getT: getQixi },
+        { label: '\u{1F49C} 七夕节', emoji: '\u{1F49C}', getT: getQixi },
         { label: '❤️ 情人节', emoji: '❤️', getT: function() { return getNextDate(2, 14); } },
         { label: '\u{1F384} 圣诞节', emoji: '\u{1F384}', getT: function() { return getNextDate(12, 25); } },
         { label: '\u{1F389} 元旦', emoji: '\u{1F389}', getT: function() { return getNextDate(1, 1); } },
@@ -3981,7 +3982,7 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
       list.innerHTML = '<div class="changelog-empty">更新日志加载失败 \u{1F4DD}</div>';
       return;
     }
-    fetch(BASE_URL + 'changelog.json')
+    fetch('./changelog.json')
       .then(function(r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.json();
