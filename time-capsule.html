@@ -3716,27 +3716,48 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
   const bgMusic = document.getElementById('bg-music');
   let musicStarted = false;
 
-  // 🎵 音乐按钮（默认静音，等待后续填入音乐链接再启用）
-  // 当前未填入链接，点击按钮仅显示提示
-  const PLAYLIST = [];
+  // 🎵 背景音乐播放列表
+  const PLAYLIST = [
+    'https://freepd.com/music/Wakeful%20Dream.mp3',
+    'https://freepd.com/music/Smile.mp3',
+  ];
+
+  // 随机选一首
+  function pickRandomSong() {
+    return PLAYLIST[Math.floor(Math.random() * PLAYLIST.length)];
+  }
+
+  // 播放指定歌曲（没有参数时随机选）
+  function playSong(songUrl) {
+    var song = songUrl || pickRandomSong();
+    bgMusic.src = song;
+    bgMusic.load();
+    bgMusic.muted = false;
+    bgMusic.play().catch(function() {});
+  }
 
   function startMusic() {
-    // 音乐功能暂未启用，保留接口
+    if (musicStarted) return;
     musicStarted = true;
+    if (bgMusic && PLAYLIST.length) {
+      playSong();
+      if (musicToggle) {
+        musicToggle.classList.remove('muted');
+        musicToggle.textContent = '🔊';
+        musicToggle.title = '点击静音';
+      }
+    }
   }
 
   if (musicToggle) {
     musicToggle.addEventListener('click', function() {
-      if (PLAYLIST.length === 0) {
-        // 音乐链接尚未配置，显示提示
-        var tip = document.createElement('div');
-        tip.textContent = '🎵 音乐链接待添加，请稍后';
-        tip.style.cssText = 'position:fixed;bottom:130px;right:50%;transform:translateX(50%);background:#5D3A3A;color:#FFF5F5;padding:10px 20px;border-radius:20px;font-size:14px;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.2);pointer-events:none;animation:fadeUp 0.3s ease;';
-        document.body.appendChild(tip);
-        setTimeout(function() { tip.remove(); }, 2500);
-        return;
-      }
-      if (bgMusic.paused) {
+      if (!bgMusic.src || bgMusic.src.indexOf('freepd.com') === -1) {
+        // 还未设置过源，初次点击随机选一首
+        playSong();
+        musicToggle.classList.remove('muted');
+        musicToggle.textContent = '🔊';
+        musicToggle.title = '点击静音';
+      } else if (bgMusic.paused) {
         bgMusic.play().catch(function() {});
         musicToggle.classList.remove('muted');
         musicToggle.textContent = '🔊';
