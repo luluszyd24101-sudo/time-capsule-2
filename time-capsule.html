@@ -3706,9 +3706,9 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
   // 🎵 流行歌曲播放列表（每次打开随机播一首）
   // 想换歌直接改这里，支持本地MP3和在线链接
   const PLAYLIST = [
-    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
-    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3',
+    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3',
+    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3',
   ];
 
   // 随机选一首歌
@@ -3920,15 +3920,7 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
     function render() {
       container.innerHTML = '';
       var items = [
-        { label: '🎂 露露生日', emoji: '🎂', getT: function() {
-            // 农历八月二十九转公历（近似：农历8月29≈公历10月初，每年不同）
-            var year = new Date().getFullYear();
-            // 用农历转公历库或近似：2024年=10月31日，每年偏移约10-11天
-            var dates = {2024: new Date(2024,9,31), 2025: new Date(2025,10,19), 2026: new Date(2026,10,8), 2027: new Date(2027,9,28)};
-            var t = dates[year] || new Date(year,10,1);
-            if (t < new Date()) t = dates[year+1] || new Date(year+1,10,1);
-            return t;
-        }},
+        { label: '🎂 露露生日', emoji: '🎂', getT: getBirthday },
         { label: '🎂 浚洋生日', emoji: '🎂', getT: function() {
             // 农历十月十七转公历（近似：2024年=11月17日）
             var year = new Date().getFullYear();
@@ -3995,12 +3987,21 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
     var list = document.getElementById('changelog-list');
     if (!list) return;
     var logs = [
-      { date: '2026-06-23', time: '凌晨', tag: '修复', content: '修复纪念日倒计时显示' },
-      { date: '2026-06-23', time: '凌晨', tag: '修复', content: '修复背景音乐播放' },
-      { date: '2026-06-22', time: '夜晚', tag: '新功能', content: '添加PWA支持，可安装到桌面' },
-      { date: '2026-06-22', time: '夜晚', tag: '新功能', content: '添加背景音乐模块' },
-      { date: '2026-06-22', time: '夜晚', tag: '新功能', content: '添加纪念日倒计时模块' },
-      { date: '2026-06-22', time: '夜晚', tag: '新功能', content: '网站上线，完成九大模块' },
+      { date: '2026-06-23', time: '14:50', tag: '修复', content: '修复导航栏 mainContent 未定义问题' },
+      { date: '2026-06-23', time: '13:41', tag: '修复', content: '清空 Service Worker 缓存，每次从网络获取最新文件' },
+      { date: '2026-06-23', time: '13:38', tag: '修复', content: '升级 Service Worker 缓存版本至 v20260623' },
+      { date: '2026-06-23', time: '13:04', tag: '修复', content: '修复纪念日倒计时、更新日志、背景音乐、PWA 四个问题' },
+      { date: '2026-06-22', time: '23:48', tag: '优化', content: '升级 Service Worker 网络优先策略，替换音乐为温柔钢琴曲' },
+      { date: '2026-06-22', time: '23:19', tag: '修复', content: '修复倒计时/信封/音乐/更新日志问题，新增导航栏' },
+      { date: '2026-06-22', time: '23:00', tag: '新功能', content: '新增 PWA 支持（manifest、Service Worker、图标）' },
+      { date: '2026-06-22', time: '22:47', tag: '新功能', content: '新增顶部导航栏、倒计时模块、更新日志模块' },
+      { date: '2026-06-22', time: '22:27', tag: '修复', content: '修复手机端图片不显示（改用绝对路径）' },
+      { date: '2026-06-22', time: '22:12', tag: '新功能', content: '新增背景音乐自动播放功能' },
+      { date: '2026-06-22', time: '13:23', tag: '优化', content: '触发 Cloudflare Pages 重新部署' },
+      { date: '2026-06-22', time: '12:52', tag: '优化', content: '添加 Cloudflare Pages URL 重写配置' },
+      { date: '2026-06-22', time: '12:38', tag: '优化', content: '添加 Vercel 部署配置文件' },
+      { date: '2026-06-22', time: '02:03', tag: '其他', content: '添加图片资源和 .gitignore' },
+      { date: '2026-06-22', time: '01:48', tag: '新功能', content: '网站初始上线：恋爱时间胶囊' },
     ];
     var tags = { '新功能': 'new', '修复': 'fix', '优化': 'enhance' };
     var html = '';
