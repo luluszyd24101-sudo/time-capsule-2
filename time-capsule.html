@@ -3718,8 +3718,6 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
 
   // 🎵 背景音乐播放列表
   const PLAYLIST = [
-    './music/告白气球..mp3',
-    './music/甜甜的..mp3',
     './music/遇见 (钢琴版)..mp3',
     './music/River Flows in You..mp3',
   ];
@@ -3987,6 +3985,7 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
     var list = document.getElementById('changelog-list');
     if (!list) return;
     var logs = [
+      { date: "2026-06-23", time: "16:50", tag: "优化", content: "精简背景音乐为2首钢琴曲" },
       { date: "2026-06-23", time: "16:20", tag: "优化", content: "替换背景音乐为 Bensound 浪漫钢琴曲" },
       { date: "2026-06-23", time: "16:20", tag: "修复", content: "BASE_URL 改为动态获取，适配 GitHub Pages 和 Cloudflare Pages 双部署" },
       { date: "2026-06-23", time: "16:20", tag: "修复", content: "修复 manifest.json start_url 为 /time-capsule，scope 为 /，Android PWA 可安装" },
