@@ -3726,8 +3726,8 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
 
   // 🎵 背景音乐播放列表
   const PLAYLIST = [
-    './music/遇见 (钢琴版)..mp3',
-    './music/River Flows in You..mp3',
+    './music/meet.mp3',
+    './music/river.mp3',
   ];
 
   // 随机选一首
@@ -3993,6 +3993,7 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
     var list = document.getElementById('changelog-list');
     if (!list) return;
     var logs = [
+      { date: "2026-06-23", time: "17:05", tag: "优化", content: "音乐文件重命名为英文名，修复随机播放" },
       { date: "2026-06-23", time: "17:00", tag: "优化", content: "增加页面点击自动播放音乐兜底，浏览器限制时也能播放" },
       { date: "2026-06-23", time: "16:50", tag: "优化", content: "精简背景音乐为2首钢琴曲" },
       { date: "2026-06-23", time: "16:20", tag: "优化", content: "替换背景音乐为 Bensound 浪漫钢琴曲" },
