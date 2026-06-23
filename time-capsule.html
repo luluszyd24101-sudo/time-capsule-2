@@ -2545,6 +2545,14 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
     e.preventDefault();
   }, { passive: false });
 
+  // 🎵 如果信封打开后自动播放被浏览器阻止，点击页面任意位置时再次尝试
+  document.addEventListener('click', function tryPlay() {
+    if (!musicStarted) {
+      startMusic();
+    }
+    document.removeEventListener('click', tryPlay);
+  }, { once: true });
+
   /* ----------------------------------------------------------
      === 模块二：恋爱计时器 =======================================
      ---------------------------------------------------------- */
@@ -3985,6 +3993,7 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
     var list = document.getElementById('changelog-list');
     if (!list) return;
     var logs = [
+      { date: "2026-06-23", time: "17:00", tag: "优化", content: "增加页面点击自动播放音乐兜底，浏览器限制时也能播放" },
       { date: "2026-06-23", time: "16:50", tag: "优化", content: "精简背景音乐为2首钢琴曲" },
       { date: "2026-06-23", time: "16:20", tag: "优化", content: "替换背景音乐为 Bensound 浪漫钢琴曲" },
       { date: "2026-06-23", time: "16:20", tag: "修复", content: "BASE_URL 改为动态获取，适配 GitHub Pages 和 Cloudflare Pages 双部署" },
