@@ -3780,7 +3780,8 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
      ---------------------------------------------------------- */
   function initNav() {
     var nav = document.getElementById('nav-bar');
-    if (!nav) return;
+    var mainContent = document.getElementById('main-content');
+    if (!nav || !mainContent) return;
 
     var NAV_ITEMS = [
       { id: 'timer-section', emoji: '\u{1F495}', label: '恋爱计时' },
