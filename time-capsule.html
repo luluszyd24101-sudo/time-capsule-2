@@ -3706,10 +3706,9 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
   // 🎵 流行歌曲播放列表（每次打开随机播一首）
   // 想换歌直接改这里，支持本地MP3和在线链接
   const PLAYLIST = [
-    'https://files.freemusicarchive.org/storage-freemusicarchive-org/tracks/XvuqkPZHMumtrs5wCjb0r5AQRyPkgHHHaKqlYUMn.mp3',  // 浪漫钢琴
-    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',     // 静谧钢琴
-    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3',     // 轻柔告白
-    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',     // 温暖抒情
+    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
   ];
 
   // 随机选一首歌
@@ -3920,7 +3919,23 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
     function render() {
       container.innerHTML = '';
       var items = [
-        { label: '\u{1F382} 露露生日', emoji: '\u{1F382}', getT: getBirthday },
+        { label: '🎂 露露生日', emoji: '🎂', getT: function() {
+            // 农历八月二十九转公历（近似：农历8月29≈公历10月初，每年不同）
+            var year = new Date().getFullYear();
+            // 用农历转公历库或近似：2024年=10月31日，每年偏移约10-11天
+            var dates = {2024: new Date(2024,9,31), 2025: new Date(2025,10,19), 2026: new Date(2026,10,8), 2027: new Date(2027,9,28)};
+            var t = dates[year] || new Date(year,10,1);
+            if (t < new Date()) t = dates[year+1] || new Date(year+1,10,1);
+            return t;
+        }},
+        { label: '🎂 浚洋生日', emoji: '🎂', getT: function() {
+            // 农历十月十七转公历（近似：2024年=11月17日）
+            var year = new Date().getFullYear();
+            var dates = {2024: new Date(2024,10,17), 2025: new Date(2025,11,6), 2026: new Date(2026,10,25), 2027: new Date(2027,11,15)};
+            var t = dates[year] || new Date(year,10,17);
+            if (t < new Date()) t = dates[year+1] || new Date(year+1,10,17);
+            return t;
+        }},
         { label: '\u{1F49C} 七夕节', emoji: '\u{1F49C}', getT: getQixi },
         { label: '❤️ 情人节', emoji: '❤️', getT: function() { return getNextDate(2, 14); } },
         { label: '\u{1F384} 圣诞节', emoji: '\u{1F384}', getT: function() { return getNextDate(12, 25); } },
@@ -3978,37 +3993,25 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
   (function() {
     var list = document.getElementById('changelog-list');
     if (!list) return;
-    if (typeof BASE_URL === 'undefined') {
-      list.innerHTML = '<div class="changelog-empty">更新日志加载失败 \u{1F4DD}</div>';
-      return;
+    var logs = [
+      { date: '2026-06-23', time: '凌晨', tag: '修复', content: '修复纪念日倒计时显示' },
+      { date: '2026-06-23', time: '凌晨', tag: '修复', content: '修复背景音乐播放' },
+      { date: '2026-06-22', time: '夜晚', tag: '新功能', content: '添加PWA支持，可安装到桌面' },
+      { date: '2026-06-22', time: '夜晚', tag: '新功能', content: '添加背景音乐模块' },
+      { date: '2026-06-22', time: '夜晚', tag: '新功能', content: '添加纪念日倒计时模块' },
+      { date: '2026-06-22', time: '夜晚', tag: '新功能', content: '网站上线，完成九大模块' },
+    ];
+    var tags = { '新功能': 'new', '修复': 'fix', '优化': 'enhance' };
+    var html = '';
+    for (var i = 0; i < logs.length; i++) {
+      var item = logs[i];
+      var tagClass = tags[item.tag] || 'other';
+      html += '<div class="changelog-item">' +
+        '<div class="changelog-date">' + item.date + '<span class="cl-time">' + item.time + '</span></div>' +
+        '<div class="changelog-content"><span class="changelog-tag tag-' + tagClass + '">' + item.tag + '</span>' + item.content + '</div>' +
+        '</div>';
     }
-    fetch('./changelog.json')
-      .then(function(r) {
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        return r.json();
-      })
-      .then(function(data) {
-        if (!data || !data.length) {
-          list.innerHTML = '<div class="changelog-empty">暂无更新记录 \u{1F4DD}</div>';
-          return;
-        }
-        var html = '';
-        var tags = { '新功能': 'new', '修复': 'fix', '优化': 'enhance' };
-        for (var i = data.length - 1; i >= 0; i--) {
-          var item = data[i];
-          var tagClass = tags[item.tag] || 'other';
-          var tagHtml = item.tag ? '<span class="changelog-tag tag-' + tagClass + '">' + item.tag + '</span>' : '';
-          html +=
-            '<div class="changelog-item">' +
-            '<div class="changelog-date">' + item.date + '<span class="cl-time">' + (item.time || '') + '</span></div>' +
-            '<div class="changelog-content">' + tagHtml + item.content + '</div>' +
-            '</div>';
-        }
-        list.innerHTML = html;
-      })
-      .catch(function() {
-        list.innerHTML = '<div class="changelog-empty">更新日志加载失败，请检查网络连接 \u{1F4DD}</div>';
-      });
+    list.innerHTML = html;
 
   /* ----------------------------------------------------------
      === PWA: 注册 Service Worker（离线访问支持）=================
@@ -4025,6 +4028,24 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
   }
 
   })();
+
+// PWA 添加到主屏幕
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+  var btn = document.createElement('button');
+  btn.textContent = '📲 添加到主屏幕';
+  btn.style.cssText = 'position:fixed;bottom:80px;right:16px;z-index:9998;background:#FFB6C9;color:#5D3A3A;border:none;border-radius:20px;padding:10px 18px;font-size:14px;cursor:pointer;box-shadow:0 4px 12px rgba(200,100,120,0.3);';
+  btn.addEventListener('click', function() {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function() {
+      btn.remove();
+      deferredPrompt = null;
+    });
+  });
+  document.body.appendChild(btn);
+});
 
 </script>
 </body>
