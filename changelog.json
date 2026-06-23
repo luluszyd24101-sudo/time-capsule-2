@@ -1,4 +1,7 @@
 [
+  { "date": "2026-06-23", "time": "16:20", "tag": "优化", "content": "替换背景音乐为 Bensound 浪漫钢琴曲" },
+  { "date": "2026-06-23", "time": "16:20", "tag": "修复", "content": "BASE_URL 改为动态获取，适配 GitHub Pages 和 Cloudflare Pages 双部署" },
+  { "date": "2026-06-23", "time": "16:20", "tag": "修复", "content": "修复 manifest.json start_url 为 /time-capsule，scope 为 /，Android PWA 可安装" },
   { "date": "2026-06-23", "time": "15:45", "tag": "优化", "content": "导航栏改到底部固定，音乐按钮上移避免遮挡" },
   { "date": "2026-06-23", "time": "15:45", "tag": "修复", "content": "修复 manifest.json start_url/scope 路径，PWA 可正常安装" },
   { "date": "2026-06-23", "time": "15:45", "tag": "优化", "content": "替换背景音乐为网易云外链（轻柔钢琴告白风）" },

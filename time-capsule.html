@@ -2449,9 +2449,8 @@ const CONFESSION_LETTER = `
 // （告白长文占位结束 — 上面可随意修改扩充）
 
 // ===== 拼图图片路径 ============================================
-// ↓ 在这里替换拼图图片的 URL（直接引号内填图片路径）
-// ↓ 目前是渐变占位色，替换为图片后拼图会自动使用图片切割效果
-const BASE_URL = 'https://luluszyd24101-sudo.github.io/time-capsule-2/';
+// ↓ 自动适配当前部署环境（GitHub Pages / Cloudflare Pages 均可）
+const BASE_URL = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
 const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
 
 // ============================================================
@@ -3706,9 +3705,8 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
   // 🎵 流行歌曲播放列表（每次打开随机播一首）
   // 想换歌直接改这里，支持本地MP3和在线链接
   const PLAYLIST = [
-    'https://music.163.com/song/media/outer/url?id=1902036.mp3',
-    'https://music.163.com/song/media/outer/url?id=28949387.mp3',
-    'https://music.163.com/song/media/outer/url?id=415026.mp3',
+    'https://www.bensound.com/bensound-music/bensound-romantic.mp3',
+    'https://www.bensound.com/bensound-music/bensound-love.mp3',
   ];
 
   // 随机选一首歌
@@ -3987,6 +3985,9 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
     var list = document.getElementById('changelog-list');
     if (!list) return;
     var logs = [
+      { date: "2026-06-23", time: "16:20", tag: "优化", content: "替换背景音乐为 Bensound 浪漫钢琴曲" },
+      { date: "2026-06-23", time: "16:20", tag: "修复", content: "BASE_URL 改为动态获取，适配 GitHub Pages 和 Cloudflare Pages 双部署" },
+      { date: "2026-06-23", time: "16:20", tag: "修复", content: "修复 manifest.json start_url 为 /time-capsule，scope 为 /，Android PWA 可安装" },
       { date: "2026-06-23", time: "15:45", tag: "优化", content: "导航栏改到底部固定，音乐按钮上移避免遮挡" },
       { date: "2026-06-23", time: "15:45", tag: "修复", content: "修复 manifest.json start_url/scope 路径，PWA 可正常安装" },
       { date: "2026-06-23", time: "15:45", tag: "优化", content: "替换背景音乐为网易云外链（轻柔钢琴告白风）" },
