@@ -1,4 +1,4 @@
-const CACHE_NAME = 'time-capsule-v20260622';
+const CACHE_NAME = 'time-capsule-v20260623';
 
 // 需要缓存的静态资源
 const PRECACHE_URLS = [
