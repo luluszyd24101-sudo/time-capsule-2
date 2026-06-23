@@ -1217,6 +1217,33 @@ body {
   opacity: 0.55;
 }
 
+
+/* PWA 安装按钮 */
+#pwa-install-btn {
+  position: fixed;
+  bottom: 76px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background: linear-gradient(135deg, var(--pink), var(--pink-strong));
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(240,98,114,0.3);
+  font-family: var(--font-body);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+#pwa-install-btn:hover {
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 5px 18px rgba(240,98,114,0.4);
+}
+#pwa-install-btn:active {
+  transform: translateX(-50%) translateY(0);
+}
 /* 时间轴卡片内的照片 */
 .timeline-photo {
   width: 100%;
@@ -2304,28 +2331,15 @@ body.nav-visible { padding-bottom: 52px; }
   </div>
 </div>
 
-  <!-- 🎵 背景音乐 — 每次打开页面自动换一首流行音乐！
-       ============================================================
-       我准备了 4 首免费流行歌曲，每次打开页面随机播一首
-       都是节奏轻快、甜甜的风格，很适合这个页面 💕
+  <!-- 🎵 背景音乐（默认静音，点击按钮后再播放）
+       音乐链接暂未配置，后续在 PLAYLIST 数组中填入链接即可启用 -->
+  <audio id="bg-music" loop preload="none"></audio>
 
-       🔄 想换成你们喜欢的歌？非常简单：
+  <!-- 音乐开关按钮 → 点击后会提示音乐待添加 -->
+  <button id="music-toggle" title="背景音乐（待配置）">🔇</button>
 
-       方法一：把 MP3 文件放到 images/ 文件夹
-         然后修改下面 playlist 里的路径，例如：
-         'images/我们的歌.mp3'
-
-       方法二：用网易云音乐
-         改成：'https://music.163.com/song/media/outer/url?id=歌曲ID.mp3'
-         比如周杰伦《告白气球》ID=436514312
-
-       方法三：用其他在线 MP3 链接
-         直接把链接填进 playlist 就行
-       ============================================================ -->
-  <audio id="bg-music" loop preload="auto"></audio>
-
-  <!-- 音乐开关按钮 → 女朋友随时点一下就能静音/取消静音 -->
-  <button id="music-toggle" title="点击播放背景音乐">🔇</button>
+  <!-- 📲 PWA 安装按钮（始终显示） -->
+  <button id="pwa-install-btn" title="安装到手机主屏幕">📲 添加到主屏幕</button>
 
 <script>
 /* ============================================================
@@ -3702,66 +3716,31 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
   const bgMusic = document.getElementById('bg-music');
   let musicStarted = false;
 
-  // 🎵 流行歌曲播放列表（每次打开随机播一首）
-  // 想换歌直接改这里，支持本地MP3和在线链接
-  const PLAYLIST = [
-    'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0c6ff1dba.mp3',
-    'https://cdn.pixabay.com/download/audio/2021/11/01/audio_fccf9c3f4b.mp3',
-  ];
+  // 🎵 音乐按钮（默认静音，等待后续填入音乐链接再启用）
+  // 当前未填入链接，点击按钮仅显示提示
+  const PLAYLIST = [];
 
-  // 随机选一首歌
-  function pickRandomSong() {
-    const idx = Math.floor(Math.random() * PLAYLIST.length);
-    return PLAYLIST[idx];
-  }
-
-  // 换一首歌（给按钮用）
-  function changeSong() {
-    const newSong = pickRandomSong();
-    // 避免连续随机到同一首
-    while (newSong === bgMusic.querySelector('source')?.src && PLAYLIST.length > 1) {
-      newSong = pickRandomSong();
-    }
-    // 更新音频源
-    bgMusic.innerHTML = '<source src="' + newSong + '" type="audio/mpeg">';
-    bgMusic.load();
-    if (!bgMusic.paused) {
-      bgMusic.play().catch(function() {});
-    }
-  }
-
-  // 🎵 开始播放音乐（由打开信封时调用）
   function startMusic() {
-    if (musicStarted) return;
+    // 音乐功能暂未启用，保留接口
     musicStarted = true;
-    if (bgMusic) {
-      // 随机选一首歌
-      const song = pickRandomSong();
-      bgMusic.innerHTML = '<source src="' + song + '" type="audio/mpeg">';
-      bgMusic.load();
-      bgMusic.muted = false;
-      bgMusic.play().catch(function() {
-        // 如果自动播放被阻止，用户点击音乐按钮也可以播放
-        musicStarted = false;
-      });
-      if (musicToggle) {
-        musicToggle.classList.remove('muted');
-        musicToggle.textContent = '🔊';
-        musicToggle.title = '点击静音';
-      }
-    }
   }
 
-  // 切换播放/静音
-  if (musicToggle && bgMusic) {
+  if (musicToggle) {
     musicToggle.addEventListener('click', function() {
+      if (PLAYLIST.length === 0) {
+        // 音乐链接尚未配置，显示提示
+        var tip = document.createElement('div');
+        tip.textContent = '🎵 音乐链接待添加，请稍后';
+        tip.style.cssText = 'position:fixed;bottom:130px;right:50%;transform:translateX(50%);background:#5D3A3A;color:#FFF5F5;padding:10px 20px;border-radius:20px;font-size:14px;z-index:9999;box-shadow:0 4px 16px rgba(0,0,0,0.2);pointer-events:none;animation:fadeUp 0.3s ease;';
+        document.body.appendChild(tip);
+        setTimeout(function() { tip.remove(); }, 2500);
+        return;
+      }
       if (bgMusic.paused) {
-        bgMusic.muted = false;
         bgMusic.play().catch(function() {});
         musicToggle.classList.remove('muted');
         musicToggle.textContent = '🔊';
         musicToggle.title = '点击静音';
-        musicStarted = true;
       } else {
         bgMusic.pause();
         musicToggle.classList.add('muted');
@@ -4035,23 +4014,36 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
 
   })();
 
-// PWA 添加到主屏幕
+// PWA 添加到主屏幕（永久按钮）
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', function(e) {
   e.preventDefault();
   deferredPrompt = e;
-  var btn = document.createElement('button');
-  btn.textContent = '📲 添加到主屏幕';
-  btn.style.cssText = 'position:fixed;bottom:80px;right:16px;z-index:9998;background:#FFB6C9;color:#5D3A3A;border:none;border-radius:20px;padding:10px 18px;font-size:14px;cursor:pointer;box-shadow:0 4px 12px rgba(200,100,120,0.3);';
-  btn.addEventListener('click', function() {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(function() {
-      btn.remove();
-      deferredPrompt = null;
-    });
-  });
-  document.body.appendChild(btn);
 });
+(function() {
+  var pwaBtn = document.getElementById('pwa-install-btn');
+  if (!pwaBtn) return;
+  pwaBtn.addEventListener('click', function() {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function() {
+        pwaBtn.textContent = '✅ 已添加 ✓';
+        pwaBtn.disabled = true;
+        pwaBtn.style.opacity = '0.5';
+        deferredPrompt = null;
+      });
+    } else {
+      pwaBtn.textContent = 'ℹ️ 请用Chrome → 菜单 → 添加到主屏幕';
+      pwaBtn.style.fontSize = '12px';
+      pwaBtn.style.padding = '6px 12px';
+      setTimeout(function() {
+        pwaBtn.textContent = '📲 添加到主屏幕';
+        pwaBtn.style.fontSize = '13px';
+        pwaBtn.style.padding = '8px 14px';
+      }, 5000);
+    }
+  });
+})();
 
 </script>
 </body>
