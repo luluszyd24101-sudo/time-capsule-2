@@ -1192,7 +1192,7 @@ body {
 /* 背景音乐切换按钮 */
 #music-toggle {
   position: fixed;
-  bottom: 24px;
+  bottom: 76px;
   right: 24px;
   z-index: 999;
   width: 48px;
@@ -1809,12 +1809,12 @@ body {
    ============================================================ */
 .nav-bar {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  bottom: 0; left: 0; right: 0;
   z-index: 9997;
   background: rgba(255, 248, 240, 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 2px 20px rgba(200, 100, 120, 0.1);
+  box-shadow: 0 -2px 20px rgba(200, 100, 120, 0.1);
   display: none;
   padding: 0 12px;
   height: 50px;
@@ -1825,7 +1825,7 @@ body {
   scrollbar-width: none;
   align-items: center;
   gap: 2px;
-  border-bottom: 1px solid var(--pink-lighter);
+  border-top: 1px solid var(--pink-lighter);
 }
 .nav-bar::-webkit-scrollbar { display: none; }
 .nav-bar.show { display: flex; }
@@ -1859,7 +1859,7 @@ body {
 }
 .nav-link .nav-emoji { font-size: 15px; }
 
-body.nav-visible { padding-top: 50px; }
+body.nav-visible { padding-bottom: 52px; }
 
 /* ============================================================
    === 倒计时模块 ===============================================
@@ -3706,9 +3706,9 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
   // 🎵 流行歌曲播放列表（每次打开随机播一首）
   // 想换歌直接改这里，支持本地MP3和在线链接
   const PLAYLIST = [
-    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3',
-    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3',
-    'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3',
+    'https://music.163.com/song/media/outer/url?id=1902036.mp3',
+    'https://music.163.com/song/media/outer/url?id=28949387.mp3',
+    'https://music.163.com/song/media/outer/url?id=415026.mp3',
   ];
 
   // 随机选一首歌
@@ -3987,6 +3987,9 @@ const PUZZLE_IMAGE_URL = BASE_URL + 'images/04.jpg';
     var list = document.getElementById('changelog-list');
     if (!list) return;
     var logs = [
+      { date: "2026-06-23", time: "15:45", tag: "优化", content: "导航栏改到底部固定，音乐按钮上移避免遮挡" },
+      { date: "2026-06-23", time: "15:45", tag: "修复", content: "修复 manifest.json start_url/scope 路径，PWA 可正常安装" },
+      { date: "2026-06-23", time: "15:45", tag: "优化", content: "替换背景音乐为网易云外链（轻柔钢琴告白风）" },
       { date: '2026-06-23', time: '14:50', tag: '修复', content: '修复导航栏 mainContent 未定义问题' },
       { date: '2026-06-23', time: '13:41', tag: '修复', content: '清空 Service Worker 缓存，每次从网络获取最新文件' },
       { date: '2026-06-23', time: '13:38', tag: '修复', content: '升级 Service Worker 缓存版本至 v20260623' },

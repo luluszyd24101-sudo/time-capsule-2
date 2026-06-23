@@ -1,4 +1,7 @@
 [
+  { "date": "2026-06-23", "time": "15:45", "tag": "优化", "content": "导航栏改到底部固定，音乐按钮上移避免遮挡" },
+  { "date": "2026-06-23", "time": "15:45", "tag": "修复", "content": "修复 manifest.json start_url/scope 路径，PWA 可正常安装" },
+  { "date": "2026-06-23", "time": "15:45", "tag": "优化", "content": "替换背景音乐为网易云外链（轻柔钢琴告白风）" },
   { "date": "2026-06-23", "time": "14:50", "tag": "修复", "content": "修复导航栏 mainContent 未定义问题" },
   { "date": "2026-06-23", "time": "13:41", "tag": "修复", "content": "清空 Service Worker 缓存，每次从网络获取最新文件" },
   { "date": "2026-06-23", "time": "13:38", "tag": "修复", "content": "升级 Service Worker 缓存版本至 v20260623" },
